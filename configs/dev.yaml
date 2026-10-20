@@ -1,0 +1,6 @@
+# Development split: a few 3RScan *train* rooms used for debugging and choosing thresholds,
+# so that the validation pairs reported in results/ are not used for tuning.
+base: default.yaml
+data:
+  root: data/3RScan_dev
+  pairs: data/pairs_dev.json

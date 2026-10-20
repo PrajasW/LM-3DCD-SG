@@ -1,0 +1,31 @@
+# SGAligner on full 3RScan scans exported by export_scan3r.py (scan_type 'scan' instead of generated sub-scans).
+seed: 42
+num_workers: 0
+
+model_name: 'sgaligner'
+modules: ['pct', 'gat', 'rel', 'attr']
+registration: True
+scan_type: 'scan'
+
+data:
+  name: Scan3R
+  root_dir: baselines/work/Scan3R      # overridden by --data-root
+
+preprocess:
+  pc_resolutions: [512]
+  min_obj_points: 50
+  anchor_type_name: ''
+
+model:
+  rel_dim: 41
+  attr_dim: 164
+  alignment_thresh: 0.4
+
+val:
+  batch_size: 1
+  data_mode: 'orig'
+  overlap_low: 0.0
+  overlap_high: 0.0
+
+reg_model:
+  K: 2                                 # best setting in the SGAligner paper (Table 5)

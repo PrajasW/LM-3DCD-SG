@@ -1,0 +1,35 @@
+data:
+  root: data/3RScan            # per-scan folders: <root>/<scan_id>/labels.instances.annotated.v2.ply ...
+  meta: data/meta              # 3RScan.json, split lists, 3DSSG objects.json / relationships.json
+  pairs: data/pairs_val.json
+
+protocol:
+  seed: 0
+  max_translation: 2.0         # random shift per axis in [-2, 2] m, rotation uniform on SO(3)
+  eval_voxel: 0.05             # RMSE is computed on the rescan cloud at this resolution
+
+graph:
+  min_points: 50               # ignore annotated segments smaller than this
+
+candidates:                    # Step 1
+  k: 3
+  require_same_class: true
+  class_mismatch_cost: 2.0     # only used when require_same_class is false (predicted segments, Phase 2)
+  extent_eps: 0.05
+  height_weight: 1.0
+  height_scale: 0.3
+  max_cost: 2.5
+
+consistency:                   # Step 2
+  dist_eps: 0.10               # sensor / annotation noise on centroid distances (m)
+  radius_beta: 0.10            # extra tolerance per metre of object radius (partial views shift centroids)
+  min_group_size: 2
+
+pose:                          # Step 3
+  min_static: 3                # fewest static objects accepted as a relocalization
+  use_floor_normal: true       # floor normals of both visits also constrain the rotation (gravity)
+  min_spread: 0.2              # inlier centroids must not be (nearly) collinear / coincident (m)
+  icp_voxel: 0.05
+  icp_distances: [0.3, 0.1, 0.05]
+  icp_iterations: 50
+  min_fitness: 0.3

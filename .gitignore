@@ -1,0 +1,28 @@
+# data (3RScan is distributed under its Terms of Use; see README)
+data/*
+!data/pairs_val.json
+!data/pairs_val_aligned.json
+!data/pairs_dev.json
+
+# third-party code / weights / generated baseline inputs (fetched by baselines/setup_baselines.sh)
+baselines/sgaligner/
+baselines/sg-pgm/
+baselines/third_party/
+baselines/weights/
+baselines/work/
+
+# python / build
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+
+# LaTeX
+report/build.log
+report/*.aux
+report/*.log
+report/*.bbl
+report/*.blg
+report/*.out
+report/figures/stats.json

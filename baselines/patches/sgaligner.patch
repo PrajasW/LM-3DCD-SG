@@ -1,0 +1,43 @@
+diff -ru a/src/engine/registration_evaluator.py b/src/engine/registration_evaluator.py
+--- a/src/engine/registration_evaluator.py	2026-10-21 00:00:53.292678694 +0530
++++ b/src/engine/registration_evaluator.py	2026-10-21 00:00:53.300678693 +0530
+@@ -173,6 +173,9 @@
+         point_corrs['scores'] = np.concatenate(point_corrs['scores'])
+ 
+         corrs_ransac = np.concatenate([point_corrs['src'], point_corrs['ref']], axis=1)
++        # mr-proj patch: GC-RANSAC's PROSAC sampler (sampler=1) expects correspondences sorted by quality; with the
++        # pip pygcransac 0.1.1 unsorted input makes it return None. Sort by the GeoTransformer matching scores.
++        corrs_ransac = corrs_ransac[np.argsort(-point_corrs['scores'])]
+         # corrs_ransac = corrs_ransac[np.where(point_corrs['scores'] > 0.5)]
+         
+         min_coordinates = np.min(corrs_ransac, axis=0)
+@@ -184,6 +187,14 @@
+                                                         spatial_coherence_weight = 0.0, 
+                                                         use_space_partitioning = not self.ransac_use_sprt, neighborhood = 0, conf = 0.999, 
+                                                         use_sprt = self.ransac_use_sprt)
++        if est_transform is None:
++            # mr-proj patch: retry with the uniform sampler when PROSAC finds no model (pip pygcransac 0.1.1).
++            est_transform, _ = pygcransac.findRigidTransform(np.ascontiguousarray(transformed_corrs_ransac), probabilities = [],
++                                                            threshold = self.ransac_threshold, neighborhood_size = 4, sampler = 0,
++                                                            min_iters = self.ransac_min_iters, max_iters = self.ransac_max_iters,
++                                                            spatial_coherence_weight = 0.0,
++                                                            use_space_partitioning = not self.ransac_use_sprt, neighborhood = 0, conf = 0.999,
++                                                            use_sprt = self.ransac_use_sprt)
+         
+         T1 = np.array([[1,0,0,0], [0,1,0,0], [0,0,1,0], [-min_coordinates[0], -min_coordinates[1], -min_coordinates[2], 1]])
+         T2inv = np.array([[1,0,0,0], [0,1,0,0], [0,0,1,0], [min_coordinates[3], min_coordinates[4], min_coordinates[5], 1]])
+diff -ru a/utils/define.py b/utils/define.py
+--- a/utils/define.py	2026-10-20 23:58:41.940703043 +0530
++++ b/utils/define.py	2026-10-20 23:59:24.900694860 +0530
+@@ -1,7 +1,9 @@
++import os
+ import os.path as osp
+ 
+-SCAN3R_ORIG_DIR = '/media/sayan/internal1/datasets/Scan3R/'
+-SCAN3R_SUBSCENES_DIR = '/drive/dumps/sgaligner/subscans/Scan3R'
++# mr-proj patch: dataset root comes from the environment (set by baselines/adapters/prepare_baselines.sh)
++SCAN3R_ORIG_DIR = os.environ.get('SCAN3R_ORIG_DIR', '/media/sayan/internal1/datasets/Scan3R/')
++SCAN3R_SUBSCENES_DIR = os.environ.get('SCAN3R_SUBSCENES_DIR', '/drive/dumps/sgaligner/subscans/Scan3R')
+ 
+ LABEL_FILE_NAME_RAW = 'labels.instances.annotated.v2.ply'
+ LABEL_MAPPING_FILE = osp.join(SCAN3R_ORIG_DIR, 'files', '3RScan.v2 Semantic Classes - Mapping.csv')

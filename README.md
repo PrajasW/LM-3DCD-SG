@@ -11,7 +11,7 @@ CS7.503 Mobile Robotics (IIIT Hyderabad) course project by **Ch Shreyash** (2024
 | Document | File |
 |---|---|
 | **Mid-submission report (Phase 1)** | [`report/main.pdf`](report/main.pdf) (LaTeX source in [`report/`](report/)) |
-| Proposal and timeline | [`docs/proposal_timeline.pdf`](docs/proposal_timeline.pdf) |
+| Proposal and timeline | [`docs/proposal_timeline.pdf`](docs/proposal_timeline.pdf) (course LaTeX template: [`docs/proposal_timeline.tex`](docs/proposal_timeline.tex)) |
 
 **Status (Oct 2026)**
 
@@ -152,8 +152,8 @@ baselines/
   adapters/                export_scan3r.py, prepare_baselines.sh, run_sgaligner.py, run_sgpgm.py, configs/
   requirements_sgbase.txt  exact package versions of the baseline environment
 tests/test_pipeline.py     synthetic rooms: Kabsch, pose invariance, duplicates, moved group, declining
-report/                    LaTeX source, figures and compiled PDF of the mid-submission report
-docs/                      proposal and README images
+report/                    mid-submission report: main.tex (course template, 11pt), references.bib, figures/, main.pdf
+docs/                      proposal (PDF + LaTeX template + references.bib) and README images
 ```
 
 ## Setup
@@ -174,7 +174,7 @@ data/meta/   3RScan.json, train_scans.txt, val_scans.txt         (campar.in.tum.
 data/3RScan/<scan_id>/labels.instances.annotated.v2.ply, semseg.v2.json, mesh.refined.0.010000.segs.v2.json
 ```
 
-[`scripts/download_subset.py`](scripts/download_subset.py) fetches N validation rooms (reference + rescans) from a Hugging Face mirror. That is what was used here: `--rooms 4`.
+[`scripts/download_subset.py`](scripts/download_subset.py) fetches N validation rooms (reference + rescans) from the Hugging Face dataset mirror [`maartenImjalli143/3RScan`](https://huggingface.co/datasets/maartenImjalli143/3RScan). That is what was used here: `--rooms 4`.
 
 **3. Learned baselines** (env `sgbase`):
 - Python 3.11 with torch 2.7.1+cu128 (tested on an RTX 2080 Ti, sm_75).
@@ -210,7 +210,7 @@ On dev, ours gets 86.4% with no wrong poses, and both FPFH baselines get 95.5%.
 
 ## Models and artefacts
 
-No models were trained in this project, so there are no Hugging Face or WandB artefacts. The baseline checkpoints are the authors' releases:
+No models were trained in this project, so there are no Hugging Face or WandB model artefacts. The only Hugging Face resource used is the 3RScan dataset mirror [`maartenImjalli143/3RScan`](https://huggingface.co/datasets/maartenImjalli143/3RScan). The baseline checkpoints are the authors' releases:
 
 | Checkpoint | Source |
 |---|---|
@@ -228,7 +228,7 @@ No models were trained in this project, so there are no Hugging Face or WandB ar
 
 ## References
 
-The full bibliography is in [`report/refs.bib`](report/refs.bib). The key works:
+The full bibliography is in [`report/references.bib`](report/references.bib). The key works:
 
 | Work | Venue |
 |---|---|

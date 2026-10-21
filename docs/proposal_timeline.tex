@@ -1,0 +1,162 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, margin=2.0cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+
+% new packages
+\usepackage[normalem]{ulem}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\definecolor{darkblue}{RGB}{0, 32, 96}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{darkblue}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{darkblue}}{\thesubsection}{1em}{}
+
+% Hyperlink configuration
+\hypersetup{
+    colorlinks=true,
+    linkcolor=darkblue,
+    citecolor=darkblue,
+    urlcolor=darkblue
+}
+% this is just to signify changes
+\newcommand{\remove}[1]{\sout{#1}}
+\newcommand{\ankit}[1]{\textcolor{purple}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor[rgb]{0,0.6,0}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\mauve}[1]{\textcolor[rgb]{0.58,0,0.82}{#1}}
+\newcommand{\darkblue}[1]{\textcolor[rgb]{0,0,0.5}{#1}}
+
+%to do notes
+\newcommand{\todobox}[3]{%
+	\colorbox{#1}{\textcolor{white}{\sffamily\bfseries\scriptsize #2}}%
+	~\textcolor{blue}{#3} %
+	\textcolor{#1}{$\triangleleft$}%
+}
+\newcommand{\todo}[1]{\todobox{red}{TODO}{#1}}
+
+% figure slot: shows the image if the file exists, otherwise a framed placeholder
+% usage: \figslot{file}{width}{placeholder height}{what the figure should show}
+\newcommand{\figslot}[4]{%
+  \IfFileExists{#1}%
+    {\includegraphics[width=#2]{#1}}%
+    {\fbox{\parbox[c][#3][c]{#2}{\centering\small\sffamily
+      \textcolor{red}{Figure placeholder}\\[2pt]\texttt{\detokenize{#1}}\\[4pt]#4}}}%
+}
+
+\title{
+  \large\textnormal{CS7.503: Mobile Robotics}\\[0.5em]
+  \LARGE\textbf{\color{darkblue}Lifelong Mapping \& 3D Change Detection}
+}
+\author{
+  Ch Shreyash \\ 2024121008
+  \and
+  Farzana S \\ 2024121006
+  \and
+  Prajas Wadekar \\ 2024121009
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+  \noindent Homes, offices and labs change between visits: chairs are moved, boxes appear and objects are put away. A robot that returns with a map from an earlier visit has to find its pose in that map with no initial guess, find out which objects were moved, added or removed, and update the map accordingly. We propose a training-free lifelong mapping pipeline for this. The map is a point cloud of the room, split into one segment per object and organised as a 3D scene graph, in which each node is an object and edges record spatial relationships. On each visit, the robot builds another scene graph from what it currently sees and matches it to the previous graph. The distance between two objects that did not move is the same in both visits, so the largest group of matched objects whose distances all agree is the set of objects that stayed in place. This gives us the robot's pose. Smaller groups whose distances agree among themselves are objects that moved together. An object without a match is labelled as removed or added only if depth images show that its space is empty; otherwise it is kept and marked as not observed. The stored map is then edited per object, so objects keep their identity and the map size depends on the number of objects rather than the number of visits. We evaluate relocalization, change detection and map size on 3RScan.
+\end{abstract}
+
+\section{Introduction // Motivation}
+
+Robots in homes, offices and labs return to the same rooms many times, and the rooms change in between: furniture is rearranged and objects are added or put away. When a robot returns, it has to find its pose in the old map with no initial guess, even though some of the landmarks may have moved. It also has to find which objects were moved, added or removed, and tell these apart from objects that are only hidden or outside the area it observed this time. Then, it has to update the map with those changes. Replacing the old map with the new deletes everything that cannot be currently seen, loses which object is which, and moves the map's coordinate frame. Appending every new scan keeps outdated copies and makes the map grow with every visit.
+
+3D scene graphs suit this problem because they store a scene as separate objects with positions and relations, so changes can be described per object~\cite{rosinol2021kimera,wald2020learning}. Existing work covers only parts of the problem. Scene-graph mapping systems assume that objects stay in place between runs: Kimera~\cite{rosinol2021kimera} models only agents (people and robots) as moving, and the map update of ConceptGraphs~\cite{gu2024conceptgraphs} deletes objects that are not re-detected regardless of whether they were in view. Scene-graph alignment finds the pose but not the changes in the map. SGAligner~\cite{sarkar2023sgaligner} matches the objects of two scene graphs and computes the pose from the matched objects, but it ignores the objects it cannot match, so it does not report what changed. Change detection methods, on the other hand, assume that the two scans are already aligned. Objects Can Move~\cite{adam2022objects} uses the alignment supplied with 3RScan and outputs unlabelled point clusters, without a pre-defined notion of what an object is supposed to look like. DSG~\cite{dsg2026dynamic} uses ground-truth camera poses, has no ``moved'' state (a moved object becomes a missing object plus a new one), and needs GPU rendering and a large language model. 3D VSG~\cite{looper2023vsg} learns how likely each object is to change, but does not check whether it actually did. Finally, none of these methods is evaluated over more than two visits, and none reports how the map size grows over multiple observations.
+
+We propose a pipeline that performs all three tasks on each visit, without training and without a given alignment. It outputs the robot's pose in the old map, the objects that were moved (with their motion), added, removed or not observed, and the updated map.
+
+\section{Related Work}
+Kimera~\cite{rosinol2021kimera} builds a layered scene graph (mesh, objects, places, rooms) where objects are static and only agents move. 3DSSG~\cite{wald2020learning} provides scene graphs for every scan in 3RScan, with one node per object instance and labelled relations between objects, and predicts such graphs from point clouds. ConceptGraphs~\cite{gu2024conceptgraphs} builds a graph whose nodes are object point clouds with image features, connected by relations from a language model. These methods describe only one scan.
+
+3RScan~\cite{wald2019rio} introduced the task of finding the pose of a given, already segmented object in a later scan of the same room. SGAligner~\cite{sarkar2023sgaligner} aligns two scene graphs: a network trained on 3RScan embeds each object from its point cloud, relations and attributes, objects with similar embeddings are matched, and the rigid transform between the scans is estimated from point matches on the matched objects. It also aligns a partial scan to a prior map that contains changes, but reports only how well objects are matched, not what changed. When many candidate matches are wrong, PCM~\cite{mangelson2018pcm} and TEASER~\cite{yang2021teaser} keep only the largest group of matches in which every pair agrees. PCM applies this to loop closures between two maps, whereas TEASER applies it to point matches, where two matches agree if the distance between their points is the same in both point clouds.
+
+Objects Can Move~\cite{adam2022objects} detects moved, added and removed objects between two aligned scans without change labels. It compares depth maps of the two scans to find candidate changes, fits a rigid motion to each group of points that moved together, and spreads each change to all parts of the scene that share that motion. DSG~\cite{dsg2026dynamic} stores each object as a set of 3D Gaussians and compares renderings with images to label objects stable, appeared or missing. 3D VSG~\cite{looper2023vsg} trains a graph neural network on pairs of 3RScan scans to predict how likely an object is to move, change state, or appear or disappear, but does not verify these predictions against the actual changes.
+
+\section{Proposed Contributions}\label{sec:contrib}
+\begin{enumerate}[label=C\arabic*., leftmargin=*, itemsep=2pt, topsep=3pt]
+  \item We propose a pipeline driven by \textbf{object-level maps that are iteratively edited} across visits. By organizing segmented point clouds into a scene graph, our approach retains unobserved regions and preserves individual object identities and change histories. 
+  \item We introduce a \textbf{pairwise distance test} for both relocalization and change detection, operating without training data or prior alignment. By evaluating the relative positions of matched objects, the largest geometrically consistent group establishes the robot's pose, while smaller consistent clusters identify objects that moved together.
+  \item We ensure map integrity through \textbf{depth-based verification} of removals and additions. Objects are classified as removed or added only if new depth images confirm their physical space is currently empty or was explicitly observed as empty previously. Objects merely hidden or outside the current field of view are safely retained and marked as unobserved.
+  \item We \textbf{evaluate the pipeline} over multiple visits. Using the 3RScan dataset without ground-truth alignment, we process rooms with three or more scans as continuous visits. This allows us to test relocalization accuracy, change detection, and map growth after every successive observation.
+\end{enumerate}
+
+\section{Methodology}
+
+\subsection{Representing the map}
+The map is represented as a point cloud, divided into one segment per object. A 3D scene graph is built on top of these segments. Each object is a node that stores the object's points, its centre, its bounding box, its class, and its change history. To provide spatial context, the graph also includes nodes representing the room's floor and walls. Edges connect objects through spatial relationships. Figure~\ref{fig:map} shows an example.
+
+\begin{figure}[t]
+  \centering
+  \figslot{figures/3dssg-scene-graph.png}{0.95\linewidth}{4.5cm}{3DSSG, Fig.~2 (p.~3): a 3RScan scene with object nodes, their attributes, and relations between them}
+  \caption{A 3D scene graph of a 3RScan scan, from 3DSSG~\cite{wald2020learning}. Our map has the same structure, but each node also stores the object's points, centre, bounding box and change history.}
+  \label{fig:map}
+\end{figure}
+
+\subsection{Building a graph from a visit}
+Each visit produces a point cloud of the room in the robot's own coordinate frame. The point cloud is split into object segments, and the properties of each node and the edges are computed from the segments. The graph of the first visit is stored as the map. On later visits, the graph is temporary: it is used in the steps below and then discarded.
+
+\subsection{Updating the map on each later visit}
+
+\paragraph{Step 1: Candidate matches.} Each map object is paired with a few objects of the new visit that look similar in size, shape, height above the floor and class. None of these depend on the robot's pose. Identical objects each get several candidates and Step~2 decides which one is right. Choosing among them by appearance alone may lead to matching the wrong copy, like in SGAligner.
+
+\paragraph{Step 2: Objects that stayed in place.} If two objects did not move, the distance between them is the same in both visits, wherever the robot is. For every pair of candidate matches, we check whether the two distances agree, allowing for sensor noise and for the centre of a large object shifting when only part of it is seen. The largest group of matches in which every pair agrees is taken as the set of objects that stayed in place. This search for the largest agreeing group follows PCM and TEASER~\cite{mangelson2018pcm,yang2021teaser}.
+
+\paragraph{Step 3: Robot pose.} The rotation and translation that bring the static objects of the new visit onto their positions in the map give the robot's pose. The pose is refined by aligning the points of these objects and of the floor and walls. If too few static objects are found, or the alignment is poor, the method reports that it could not relocalize instead of returning a pose.
+
+\paragraph{Step 4: Objects that moved.} Each remaining group whose distances agree is a set of objects that moved together, and its motion is computed as in Step~3. An object that moved alone has no partner to compare distances with, so its old and new point clouds are aligned directly, and it is labelled moved if they fit and Step~5 shows that its old location is now empty.
+
+\paragraph{Step 5: Removed, added, or not observed.} A map object with no match was either removed or not observed on this visit. Its points are placed into the new visit's frame using the pose from Step~3 and projected into the visit's depth images. If the camera sees surfaces behind the place where the object was, that space is now empty and the object is labelled removed. If the place is hidden behind something or was never in view, the object is kept and marked not observed. A new object with no match is labelled added if its space was observed empty on an earlier visit. If that space was never observed, it is inserted into the map but not counted as a change.
+
+% \begin{figure}[t]
+%   \centering
+%   \figslot{figures/ocm-workflow.png}{0.95\linewidth}{6cm}{Objects Can Move, Fig.~1 (p.~2): depth comparison, rigid transformations of moved objects, and propagation of change}
+%   \caption{The Objects Can Move pipeline~\cite{adam2022objects}. Step~1 renders depth images of the two aligned scans from the same camera poses and subtracts them to find candidate changes. Step~2 computes the rigid transformations of the objects that moved. Step~3 spreads each change to all regions that share the same transformation.}
+%   \label{fig:ocm}
+% \end{figure}
+
+\paragraph{Step 6: Editing the map.} Objects that stayed in place receive the new points. Moved objects are shifted by their motion. Removed objects are deleted, and added or newly observed objects are inserted. Objects that were not observed are kept unchanged. Each object's change history and the record of empty space are updated and edges are recomputed around edited objects. The map size depends on the number of objects and not the number of visits.
+\section{Dataset}
+
+We use 3RScan~\cite{wald2019rio}, which contains 1482 RGB-D scans of 478 indoor rooms, with 2--12 scans per room recorded minutes to months apart. Each scan provides RGB-D frames with camera poses, a textured mesh, instance labels whose IDs stay the same across scans of a room, the transform that aligns it to the room's reference scan, and the rigid motion of each object that moved. We also use 3DSSG~\cite{wald2020learning}, which adds a scene graph with object classes and support relations to every 3RScan scan.
+
+\begin{figure}[t]
+  \centering
+  \figslot{figures/3rscan-pair.png}{\linewidth}{3.5cm}{RIO / 3RScan, Fig.~2 (p.~2): a scene pair with reconstructions, textured meshes, instance segmentation, object alignment and RGB-D frames}
+  \caption{Two scans of the same room in 3RScan, from~\cite{wald2019rio}: (a) 3D reconstructions, (b) aligned textured meshes, (c) instance segmentation with IDs shared across scans, (d) the alignment of objects that moved, and (e) calibrated RGB-D frames.}
+  \label{fig:3rscan}
+\end{figure}
+
+\section{Evaluation Plan}
+
+We evaluate on 3RScan in two settings. In the two-visit setting, the room's reference scan is the map and each rescan is a new visit; the rescan is given a random rotation and shift, so the dataset alignment is used only to score the result. In the multi-visit setting, the scans of every room with three or more scans are processed one after another, and the map is edited after each. For \textbf{relocalization}, we report the success rate, which is the share of rescans whose estimated pose is within the standard 3RScan error thresholds~\cite{wald2019rio}, and the time needed to compute the pose. For \textbf{change detection}, we report precision and recall for each change type (moved, added, removed), counted per object. For \textbf{map quality over visits}, we report the size of the map after each visit in the multi-visit setting, and the share of objects in the room that are in the map at the correct place.
+
+\section{Project Timeline}
+\begin{itemize}
+  \item \textbf{Phase 1 (Mid Submission - Oct 26):} Load 3RScan and 3DSSG; build graphs from the annotated segments; implement Steps 1--3; report relocalization results in the two-visit setting.
+  \item \textbf{Phase 2 (Final Submission - Nov 23):} Implement Steps 4--6; run the multi-visit setting; use predicted segments; write the final report.
+  \item \textbf{Phase 3 (Project Demo - Nov 26):} Prepare the presentation and a demonstration of relocalization, change detection and map editing on 3RScan rooms.
+\end{itemize}
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

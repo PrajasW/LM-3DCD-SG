@@ -13,11 +13,11 @@ CS7.503 Mobile Robotics (IIIT Hyderabad) course project by **Ch Shreyash** (2024
 | **Mid-submission report (Phase 1)** | [`report/main.pdf`](report/main.pdf) (LaTeX source in [`report/`](report/)) |
 | Proposal and timeline | [`docs/proposal_timeline.pdf`](docs/proposal_timeline.pdf) (course LaTeX template: [`docs/proposal_timeline.tex`](docs/proposal_timeline.tex)) |
 
-**Status (Oct 2026)**
+**Status (Nov 2026)**
 
 | Phase | Due | Scope | Status |
 |---|---|---|---|
-| Phase 1 | mid-submission, Oct 26 | data loading, graph construction, Steps 1–3, two-visit relocalization, baselines | ✅ done |
+| Phase 1 | mid-submission, Oct 26 | data loading, graph construction, Steps 1–3, two-visit relocalization, baselines | ✅ done (full validation split, Nov 4) |
 | Phase 2 | final, Nov 23 | Steps 4–6, multi-visit setting, predicted segments | planned |
 | Demo | Nov 26 | relocalization, change detection and map editing on 3RScan rooms | planned |
 
@@ -49,11 +49,13 @@ Each object keeps its $k=3$ cheapest counterparts, in both directions. Identical
 Each test uses the tolerance $\tau=\varepsilon+\beta(r+r')$, where the $r$ terms are the object radii, because the centroid of a partly seen large object shifts. The maximum clique of the compatibility graph is the **static set** $S$. Re-solving on the remaining candidates gives further cliques, which are candidate groups of objects that **moved together** (input to Step 4).
 
 **Step 3: pose.**
-1. Solve a weighted Kabsch/Umeyama alignment on the centroids of $S$, with the two floor normals added as an extra direction pair.
-2. Refine with point-to-plane ICP on the points of $S$ and the structural nodes.
+1. Solve a weighted Kabsch/Umeyama alignment on the centroids of $S$, with the two floor normals added as an extra direction pair. The normal term is weighted by the weighted variance of the visit centroids, so it counts as much as their spread.
+2. Refine with point-to-plane ICP on the points of $S$ and the floor, walls and ceiling.
 3. Return failure ($\bot$) instead of a pose if $|S|<3$, the centroids are collinear, or the ICP fitness is below 0.3.
 
 All parameters are in [`configs/default.yaml`](configs/default.yaml). They were chosen only on 6 **train** rooms ([`configs/dev.yaml`](configs/dev.yaml)), never on the validation pairs.
+
+The height test rejects matches that only fit with the scene upside down. It does **not** reject a reflection through a vertical plane, which keeps every distance and height difference; nothing in Steps 1–3 checks for that case yet.
 
 <p align="center"><img src="docs/img/scene_graphs.png" width="80%"></p>
 
@@ -61,7 +63,7 @@ All parameters are in [`configs/default.yaml`](configs/default.yaml). They were 
 
 Every method sees exactly the same input:
 - **Pairs.** A 3RScan reference scan is the map and one of its rescans is the new visit. Phase 1 uses the annotated segments.
-- **Random transform.** Each pair has one stored random rigid transform: a uniform rotation on SO(3) and a translation drawn from U(−2, 2)³ m. It is applied to the rescan before any method sees it ([`data/pairs_val.json`](data/pairs_val.json)).
+- **Random transform.** Each pair has one stored random rigid transform: a uniform rotation on SO(3) and a translation drawn from U(−2, 2)³ m. It is applied to the rescan before any method sees it ([`data/pairs_val_full.json`](data/pairs_val_full.json); the earlier 17-pair subset is [`data/pairs_val.json`](data/pairs_val.json)).
 - **Ground truth.** $\mathbf T^\star = \mathbf T_{\text{rescan}\to\text{ref}}\,\mathbf T_\text{rand}^{-1}$, using the transform from `3RScan.json`, which is stored column-major. It is used only for scoring.
 - **Metrics:**
   - success at the RIO thresholds, 10 cm / 10° and 20 cm / 20°;
@@ -71,42 +73,44 @@ Every method sees exactly the same input:
 - **Failures.** A pair on which a method declines to return a pose counts as a failure.
 - **Aligned run.** A second run gives the rescan already aligned to the reference. This is the setting the learned baselines were trained and evaluated in, and it also checks that their adapters work.
 
-## Results (Phase 1, validation subset: 4 rooms, 17 pairs)
+## Results (Phase 1, full validation split: 47 rooms, 110 pairs)
 
-This is a small subset: one pair is about 6 points of success rate. The full validation split (47 rooms) is the first item for Phase 2.
+"Wrong" = a pose was returned but is outside 20 cm / 20°. Times are per pair for the pose; our graph construction adds 0.11 s.
 
-| Method | Pose returned | succ. 10cm/10° | succ. 20cm/20° | RR@0.2m | median RRE | median RTE | time/pair | succ. 20/20, pre-aligned |
-|---|---|---|---|---|---|---|---|---|
-| SGAligner (ICCV'23) | 47.1% | 35.3% | 35.3% | 35.3% | 1.24° | 4.7 cm | 2.73 s | 70.6–76.5% |
-| SG-PGM (CVPR'24) | 100% | 17.6% | 17.6% | 17.6% | 80.2° | 145 cm | 2.99 s | 64.7% |
-| FPFH + TEASER++ | 100% | 70.6% | 82.4% | 82.4% | 1.07° | 3.2 cm | 1.69 s | 82.4% |
-| FPFH + RANSAC | 100% | **76.5%** | **94.1%** | **94.1%** | 1.07° | 3.2 cm | 4.82 s | 88.2% |
-| Ours, centroid pose only | 94.1% | 52.9% | 76.5% | 82.4% | 1.55° | 7.6 cm | <0.01 s | 82.4% |
-| **Ours (Steps 1–3)** | 94.1% | 70.6% | 82.4% | 82.4% | **0.99°** | 3.3 cm | **0.13 s** | 82.4% |
+| Method | Pose returned | Wrong | succ. 10cm/10° | succ. 20cm/20° | RR@0.2m | median RRE | median RTE | time/pair | succ. 20/20, pre-aligned |
+|---|---|---|---|---|---|---|---|---|---|
+| SGAligner (ICCV'23) | 40.9% | 9.1% | 27.3% | 31.8% | 32.7% | 1.45° | 5.4 cm | 3.37 s | 79.1% |
+| SG-PGM (CVPR'24) | 100% | 66.4% | 27.3% | 33.6% | 35.5% | 17.9° | 68.3 cm | 4.09 s | 74.5% |
+| FPFH + TEASER++ | 100% | 9.1% | 75.5% | 90.9% | 93.6% | 0.98° | 3.8 cm | 1.82 s | 90.9% |
+| FPFH + RANSAC | 100% | 6.4% | **78.2%** | **93.6%** | **96.4%** | **0.96°** | **3.7 cm** | 4.83 s | 92.7% |
+| Ours, centroid pose only | 96.4% | 11.8% | 59.1% | 84.5% | 89.1% | 1.63° | 7.2 cm | <0.01 s | 83.6% |
+| **Ours (Steps 1–3)** | 93.6% | **4.5%** | 72.7% | 89.1% | 91.8% | 0.97° | 4.0 cm | **0.13 s** | 89.1% |
 
 <p align="center"><img src="docs/img/success_curves.png" width="62%"> <img src="docs/img/runtime.png" width="34%"></p>
 
 **Invariance.**
-- Our accuracy is the same with and without the random transform.
-- The learned scene-graph aligners collapse under it: SGAligner drops from 71–76% to 35%, and SG-PGM from 65% to 18%.
+- At 20 cm / 20° and in RR our accuracy is the same with and without the random transform.
+- At 10 cm / 10° it drops from 78.2% to 72.7%. Translation error is measured at the frame origin, which the transform moves metres away from the scene, so a sub-degree rotation error adds centimetres.
+- The learned scene-graph aligners collapse under the transform: SGAligner drops from 79% to 32%, and SG-PGM from 75% to 34%.
 - Their node encoders take object points in world coordinates. SG-PGM's own random-transform evaluation rotated only the registration points, never the scene-graph objects.
 
 **Accuracy and cost.**
-- Ours matches FPFH+TEASER++ and is two pairs behind FPFH+RANSAC, at 37× lower cost.
-- Steps 1–2 take about 1.5 ms per pair; ICP takes the remaining 0.13 s.
-- Ours also returns object correspondences and the static set, which the change-detection steps need.
+- Ours is within the 95% intervals of both FPFH methods (Wilson: ours 82–94%, RANSAC 87–97%). RANSAC succeeds on 5 pairs we fail, and we succeed on none it fails (McNemar p = 0.06).
+- Ours returns the fewest wrong poses: 5, against 7–73 for the baselines. 7 of our 12 failures are declines.
+- Steps 1–2 take 2.6 ms on 3–120 candidates, ICP 0.13 s and graph construction 0.11 s: about 20× less than RANSAC, on annotated segments.
+- Ours also returns object correspondences and the static set (precision 72.6%, recall 65.6% against unchanged instances), which the change-detection steps need. Many of the "errors" are objects annotated as moved that shifted only a few centimetres.
 
-**Failure modes.**
-- **Repeated layouts:** a café with a row of identical table, chair and menu sets. Shifting by one set gives a consistent group of 8 objects, larger than the correct group of 7.
-- **Too few objects:** a rescan that sees only 6 objects, so we decline.
-- **Everything moved:** rooms where every object moved (dev set). Declining is the correct object-level answer there, but structure-only registration would still recover the pose.
+**Failure modes** (all 12 are listed in the report's appendix).
+- **Repeated layouts:** a café with a row of identical table, chair and menu sets and no walls. One rescan is matched one set off and another is flipped 180° about the vertical; both pass the ICP fitness gate, which the floor dominates.
+- **Near-misses:** three pairs with rotation error ≈ 4° and translation error 22–34 cm.
+- **Declines:** 2 too few static objects, 2 degenerate static sets, 3 low ICP fitness. FPFH+RANSAC solves 5 of these 7 from walls and floor, which motivates a structure-only fallback.
 
 | | |
 |---|---|
 | ![consistency](docs/img/consistency.png) | ![relocalization](docs/img/relocalization.png) |
-| Pairwise test on all candidate pairs: it keeps 94.5% of pairs between correct, unchanged matches and 25.6% of the rest. The maximum clique removes the remainder. | One pair after relocalization (RTE 3.3 cm): the static clique (blue), and the remaining consistent groups (orange), which are candidates for Step 4. |
+| Distance test on all candidate pairs of the 110 pairs: it keeps 90.9% of pairs between correct, unchanged matches and 23.3% of the rest. The maximum clique removes most of the remainder. | One pair after relocalization (RTE 3.3 cm): the static clique (blue), and the remaining consistent groups (orange), which are candidates for Step 4. |
 
-Per-pair outcomes: [`docs/img/per_pair.png`](docs/img/per_pair.png). Raw results: [`results/`](results/), with one JSON line per pair and method, plus `per_pair.csv` and `two_visit_table*.md`.
+Raw results: [`results/full_val/`](results/full_val/), with one JSON line per pair and method, plus `per_pair*.csv`, `two_visit_table*.md` and the run logs. The first 17-pair subset (4 rooms) is kept in [`results/`](results/); its per-pair outcomes are in [`docs/img/per_pair.png`](docs/img/per_pair.png).
 
 ## Baselines
 
@@ -137,7 +141,7 @@ lifelong/                  the method
   consistency.py           Step 2 (compatibility matrix, maximum clique, further consistent groups)
   pose.py, relocalize.py   Step 3 and the end-to-end call
   protocol.py, metrics.py, transforms.py, config.py
-configs/                   default.yaml (all thresholds), dev.yaml (train rooms used for tuning)
+configs/                   default.yaml (all thresholds), dev.yaml (train rooms used for tuning), full_val.yaml
 scripts/
   download_subset.py       N validation rooms from a 3RScan mirror (labels + semseg + segs only)
   make_pairs.py            pairs + stored random SE(3) (--aligned: pre-aligned sanity setting)
@@ -145,7 +149,10 @@ scripts/
   run_classical.py         FPFH+RANSAC, FPFH+TEASER++          -> results/fpfh_*.jsonl
   evaluate.py              one scorer for all methods          -> results/two_visit_table*.md, per_pair*.csv
   make_figures.py          every figure of the report          -> report/figures/*.pdf
-  run_all.sh               tests -> pairs -> all methods -> evaluation
+  run_all.sh               tests -> pairs -> all methods -> evaluation (17-pair subset)
+  run_full_val.sh          full validation split end to end (+ RGB-D sequences for Phase 2)
+  run_full_val_learned.sh  SGAligner / SG-PGM only on the full split; waits until CUDA works
+  download_sequences.py    RGB-D sequences (sequence.zip) for Step 5
 baselines/
   setup_baselines.sh       fetch pinned upstream commits, apply patch, build extensions, download weights
   patches/                 sgaligner.patch
@@ -153,7 +160,7 @@ baselines/
   requirements_sgbase.txt  exact package versions of the baseline environment
 tests/test_pipeline.py     synthetic rooms: Kabsch, pose invariance, duplicates, moved group, declining
 report/                    mid-submission report: main.tex (course template, 11pt), references.bib, figures/, main.pdf
-docs/                      proposal (PDF + LaTeX template + references.bib) and README images
+docs/                      proposal (PDF + LaTeX template + references.bib), study guide, README images
 ```
 
 ## Setup
@@ -174,7 +181,7 @@ data/meta/   3RScan.json, train_scans.txt, val_scans.txt         (campar.in.tum.
 data/3RScan/<scan_id>/labels.instances.annotated.v2.ply, semseg.v2.json, mesh.refined.0.010000.segs.v2.json
 ```
 
-[`scripts/download_subset.py`](scripts/download_subset.py) fetches N validation rooms (reference + rescans) from the Hugging Face dataset mirror [`maartenImjalli143/3RScan`](https://huggingface.co/datasets/maartenImjalli143/3RScan). That is what was used here: `--rooms 4`.
+[`scripts/download_subset.py`](scripts/download_subset.py) fetches N validation rooms (reference + rescans) from the Hugging Face dataset mirror [`maartenImjalli143/3RScan`](https://huggingface.co/datasets/maartenImjalli143/3RScan). That is what was used here: `--rooms 47 --min-rescans 1` for the full split (`--rooms 4` for the first subset).
 
 **3. Learned baselines** (env `sgbase`):
 - Python 3.11 with torch 2.7.1+cu128 (tested on an RTX 2080 Ti, sm_75).
@@ -193,8 +200,8 @@ CUDA_HOME=/usr/local/cuda bash baselines/setup_baselines.sh   # SGAligner, SG-PG
 ## Reproducing the results and the report
 
 ```bash
-bash scripts/run_all.sh                       # ~15 min on the 17-pair subset (GPU for SGAligner / SG-PGM)
-python scripts/make_figures.py                # report/figures/*.pdf
+tmux new -d -s fullval 'bash scripts/run_full_val.sh'   # full split, ~2 h (GPU for SGAligner / SG-PGM)
+python scripts/make_figures.py --config configs/full_val.yaml --results results/full_val   # report/figures/*.pdf
 cd report && tectonic -X compile main.tex     # or: latexmk -pdf main.tex
 ```
 
@@ -207,6 +214,8 @@ python scripts/evaluate.py --config configs/dev.yaml --results results/dev
 ```
 
 On dev, ours gets 86.4% with no wrong poses, and both FPFH baselines get 95.5%.
+
+**GPU note.** Only SGAligner and SG-PGM use the GPU. If they fail at start-up with `CUDA unknown error`, check `python -c "import ctypes; print(ctypes.CDLL('libcuda.so.1').cuInit(0))"`. A result of 999 means the node's driver is broken (on gnode090, `/dev/nvidia-uvm` returned an I/O error). Run `scripts/run_full_val_learned.sh` on another node. `/scratch` is local to each node, so copy `/scratch/$USER/3RScan_seq` across if Step 5 needs it.
 
 ## Models and artefacts
 

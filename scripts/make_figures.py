@@ -1,7 +1,10 @@
 """Figures for the mid-submission report (report/figures/*.pdf), computed from data/ and results/.
 
-  python scripts/make_figures.py
+  python scripts/make_figures.py                                                        # 17-pair subset
+  python scripts/make_figures.py --config configs/full_val.yaml --results results/full_val  # full val split
+The example-pair figures (scene graphs, relocalization) always use --example-config.
 """
+import argparse
 import json
 import os
 import sys
@@ -190,12 +193,12 @@ def fig_consistency(cfg, pairs):
     print(f"   accepted: correct {np.mean(good <= 1):.3f}, wrong {np.mean(bad <= 1):.3f}")
 
 
-def fig_success_curves():
+def fig_success_curves(results):
     fig, axs = plt.subplots(1, 2, figsize=(4.75, 2.3), sharey=True)
     taus = np.linspace(0, 0.5, 101)
     for ax, tag, title in ((axs[0], "", "Random rigid transform"),
                            (axs[1], "_aligned", "Rescan pre-aligned")):
-        d = pd.read_csv(f"results/per_pair{tag}.csv")
+        d = pd.read_csv(os.path.join(results, f"per_pair{tag}.csv"))
         for key, label, col in METHODS:  # ours is drawn on top (it coincides with TEASER++ on this subset)
             g = d[d.method == key]
             if g.empty:
@@ -214,8 +217,8 @@ def fig_success_curves():
     save(fig, "success_curves.pdf")
 
 
-def fig_runtime():
-    d = pd.read_csv("results/per_pair.csv")
+def fig_runtime(results):
+    d = pd.read_csv(os.path.join(results, "per_pair.csv"))
     fig, ax = plt.subplots(figsize=(2.6, 2.3))
     for key, label, col in METHODS:
         g = d[d.method == key]
@@ -223,18 +226,19 @@ def fig_runtime():
             continue
         x, y = max(g.time_s.mean(), 1e-3), 100 * g.succ_20cm_20deg.mean()
         ax.scatter(x, y, s=34, color=col, edgecolor="white", lw=1.2, zorder=3)
-        off = {"ours": (-6, 6, "right"), "fpfh_teaser": (4, -10, "left"), "fpfh_ransac": (-5, 5, "right"),
-               "ours_centroid": (0, -11, "left")}.get(key, (5, -2, "left"))
+        off = {"ours": (0, 7, "center"), "fpfh_teaser": (4, -10, "left"), "fpfh_ransac": (6, -2, "left"),
+               "ours_centroid": (-3, -12, "left"), "sgaligner": (-5, -10, "right"),
+               "sgpgm": (-5, 6, "right")}.get(key, (5, -2, "left"))
         ax.annotate(label, (x, y), xytext=off[:2], textcoords="offset points", ha=off[2], fontsize=6.5, color=INK)
     ax.set_xscale("log")
     ax.set_xlabel("mean pose time per pair (s)")
     ax.set_ylabel("succ. @ 20 cm / 20° (%)")
-    ax.set_ylim(0, 100), ax.set_xlim(5e-4, 30)
+    ax.set_ylim(0, 100), ax.set_xlim(5e-4, 1e3)
     save(fig, "runtime.pdf")
 
 
-def fig_per_pair():
-    d = pd.read_csv("results/per_pair.csv")
+def fig_per_pair(results):
+    d = pd.read_csv(os.path.join(results, "per_pair.csv"))
     keys = [k for k, _, _ in METHODS]
     t = d.pivot_table(index="rescan", columns="method", values="succ_20cm_20deg", aggfunc="first")[keys]
     ref = d.drop_duplicates("rescan").set_index("rescan")["ref"]
@@ -258,15 +262,22 @@ def fig_per_pair():
 
 
 def main():
-    cfg = load_config("configs/default.yaml")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--config", default="configs/default.yaml", help="pairs used for the consistency histogram")
+    ap.add_argument("--results", default="results", help="directory with per_pair*.csv")
+    ap.add_argument("--example-config", default="configs/default.yaml", help="pairs file holding the example pair")
+    args = ap.parse_args()
+    ex_cfg = load_config(args.example_config)
+    pair = next(p for p in load_pairs(ex_cfg["data"]["pairs"]) if p["rescan"].startswith("9766cbe5"))
+    g1, g2 = fig_scene_graphs(ex_cfg, pair)
+    fig_relocalization(ex_cfg, g1, g2, pair)
+    cfg = load_config(args.config)
     pairs = load_pairs(cfg["data"]["pairs"])
-    pair = next(p for p in pairs if p["rescan"].startswith("9766cbe5"))
-    g1, g2 = fig_scene_graphs(cfg, pair)
-    fig_relocalization(cfg, g1, g2, pair)
     fig_consistency(cfg, pairs)
-    fig_success_curves()
-    fig_runtime()
-    fig_per_pair()
+    fig_success_curves(args.results)
+    fig_runtime(args.results)
+    if len(pairs) <= 40:  # one row per pair; unreadable beyond that
+        fig_per_pair(args.results)
     with open(os.path.join(OUT, "stats.json"), "w") as f:
         json.dump({"pair": pair["rescan"], "ref": pair["ref"]}, f)
 

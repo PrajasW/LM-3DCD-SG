@@ -1,0 +1,21 @@
+[2026-11-04 21:28:21] CUDA unavailable on gnode090, retrying in 10 min
+[2026-11-04 21:38:23] CUDA unavailable on gnode090, retrying in 10 min
+[2026-11-04 21:48:26] CUDA unavailable on gnode090, retrying in 10 min
+[2026-11-04 21:58:29] CUDA unavailable on gnode090, retrying in 10 min
+[2026-11-04 22:08:31] CUDA unavailable on gnode090, retrying in 10 min
+[2026-11-04 22:18:34] CUDA unavailable on gnode090, retrying in 10 min
+[2026-11-04 22:20:35] moved to gnode067: waiting job on gnode090 stopped
+[2026-11-04 22:20:38] CUDA available on gnode067
+[2026-11-04 22:20:38] start sgaligner
+[2026-11-04 22:27:01] ok sgaligner (6 min)
+[2026-11-04 22:27:01] start sgpgm
+[2026-11-04 22:34:42] ok sgpgm (7 min)
+[2026-11-04 22:34:42] start eval
+[2026-11-04 22:37:13] ok eval (2 min)
+[2026-11-04 22:37:13] start sgaligner_aligned
+[2026-11-04 22:52:37] ok sgaligner_aligned (15 min)
+[2026-11-04 22:52:37] start sgpgm_aligned
+[2026-11-04 23:00:24] ok sgpgm_aligned (7 min)
+[2026-11-04 23:00:24] start eval_aligned
+[2026-11-04 23:02:52] ok eval_aligned (2 min)
+[2026-11-04 23:02:52] all done

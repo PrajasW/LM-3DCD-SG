@@ -1,0 +1,5 @@
+# Full 3RScan validation split (47 rooms, 110 rescans). Same thresholds as default.yaml (tuned on dev only);
+# separate pairs file so the 17-pair Phase-1 subset (data/pairs_val.json) and its results stay untouched.
+base: default.yaml
+data:
+  pairs: data/pairs_val_full.json

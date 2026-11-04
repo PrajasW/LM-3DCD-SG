@@ -1,0 +1,1651 @@
+classical:   0%|          | 0/110 [00:00<?, ?it/s]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 226
+Num vertices: 2555
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 24
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   1%|          | 1/110 [00:04<09:04,  5.00s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 254
+Num vertices: 2287
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 28
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   2%|▏         | 2/110 [00:09<08:15,  4.59s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 186
+Num vertices: 2123
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 21
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   3%|▎         | 3/110 [00:13<07:54,  4.43s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 184
+Num vertices: 4208
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   4%|▎         | 4/110 [00:24<12:25,  7.03s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 173
+Num vertices: 4143
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   5%|▍         | 5/110 [00:36<15:34,  8.90s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 180
+Num vertices: 4344
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 15
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   5%|▌         | 6/110 [00:48<17:18,  9.99s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 29
+Num vertices: 730
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   6%|▋         | 7/110 [00:51<13:06,  7.63s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 36
+Num vertices: 1049
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   7%|▋         | 8/110 [00:55<10:51,  6.38s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 125
+Num vertices: 3787
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   8%|▊         | 9/110 [01:03<11:47,  7.00s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 557
+Num vertices: 5611
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:   9%|▉         | 10/110 [01:14<13:29,  8.10s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 137
+Num vertices: 3849
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  10%|█         | 11/110 [01:21<13:08,  7.97s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 230
+Num vertices: 5495
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  11%|█         | 12/110 [01:32<14:18,  8.76s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 150
+Num vertices: 3932
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  12%|█▏        | 13/110 [01:39<13:20,  8.25s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 113
+Num vertices: 3092
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  13%|█▎        | 14/110 [01:45<12:05,  7.56s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 170
+Num vertices: 4334
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 13
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  14%|█▎        | 15/110 [01:54<12:28,  7.88s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 148
+Num vertices: 4046
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  15%|█▍        | 16/110 [02:00<11:40,  7.45s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 201
+Num vertices: 4861
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  15%|█▌        | 17/110 [02:08<11:55,  7.69s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 106
+Num vertices: 3069
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 13
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  16%|█▋        | 18/110 [02:14<10:59,  7.17s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 163
+Num vertices: 4178
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  17%|█▋        | 19/110 [02:22<10:53,  7.18s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 124
+Num vertices: 3294
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  18%|█▊        | 20/110 [02:27<09:59,  6.66s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 147
+Num vertices: 5333
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 21
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  19%|█▉        | 21/110 [02:38<11:37,  7.84s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 232
+Num vertices: 7584
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  20%|██        | 22/110 [02:52<14:19,  9.76s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 116
+Num vertices: 4493
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 12
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  21%|██        | 23/110 [03:02<14:27,  9.97s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 53
+Num vertices: 2384
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 11
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  22%|██▏       | 24/110 [03:09<12:56,  9.03s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 399
+Num vertices: 7413
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  23%|██▎       | 25/110 [03:23<15:03, 10.63s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 216
+Num vertices: 5223
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  24%|██▎       | 26/110 [03:32<14:06, 10.08s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 98
+Num vertices: 4077
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  25%|██▍       | 27/110 [03:41<13:31,  9.78s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 150
+Num vertices: 5204
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 13
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  25%|██▌       | 28/110 [03:52<13:46, 10.08s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 119
+Num vertices: 3789
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 12
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  26%|██▋       | 29/110 [04:00<12:45,  9.45s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 148
+Num vertices: 5398
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 15
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  27%|██▋       | 30/110 [04:11<13:13,  9.91s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 280
+Num vertices: 9074
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  28%|██▊       | 31/110 [04:29<16:11, 12.30s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 99
+Num vertices: 1634
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  29%|██▉       | 32/110 [04:33<12:41,  9.76s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 360
+Num vertices: 2966
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  30%|███       | 33/110 [04:36<10:11,  7.94s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 393
+Num vertices: 2918
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 21
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  31%|███       | 34/110 [04:40<08:30,  6.72s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 110
+Num vertices: 2448
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  32%|███▏      | 35/110 [04:46<08:03,  6.44s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 298
+Num vertices: 6795
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  33%|███▎      | 36/110 [05:02<11:26,  9.28s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 399
+Num vertices: 8104
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 15
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  34%|███▎      | 37/110 [05:22<15:06, 12.41s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 385
+Num vertices: 7942
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  35%|███▍      | 38/110 [05:41<17:15, 14.38s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 277
+Num vertices: 9576
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  35%|███▌      | 39/110 [06:07<21:19, 18.02s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 348
+Num vertices: 2297
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  36%|███▋      | 40/110 [06:11<15:57, 13.68s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 1001
+Num vertices: 9180
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  37%|███▋      | 41/110 [06:31<18:01, 15.67s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 823
+Num vertices: 8529
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  38%|███▊      | 42/110 [06:51<19:02, 16.80s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 40
+Num vertices: 1532
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 15
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  39%|███▉      | 43/110 [06:56<14:52, 13.32s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 92
+Num vertices: 2894
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 13
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  40%|████      | 44/110 [07:05<13:28, 12.25s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 111
+Num vertices: 974
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  41%|████      | 45/110 [07:07<09:43,  8.97s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 87
+Num vertices: 1586
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  42%|████▏     | 46/110 [07:09<07:32,  7.07s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 149
+Num vertices: 1625
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 18
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  43%|████▎     | 47/110 [07:12<06:03,  5.77s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 151
+Num vertices: 1919
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 23
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  44%|████▎     | 48/110 [07:16<05:14,  5.08s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 784
+Num vertices: 8148
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 12
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  45%|████▍     | 49/110 [07:31<08:10,  8.03s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 725
+Num vertices: 7371
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  45%|████▌     | 50/110 [07:45<09:54,  9.90s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 784
+Num vertices: 9910
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 18
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  46%|████▋     | 51/110 [08:05<12:41, 12.91s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 414
+Num vertices: 2846
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  47%|████▋     | 52/110 [08:09<10:02, 10.39s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 330
+Num vertices: 9082
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 13
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  48%|████▊     | 53/110 [08:31<13:09, 13.86s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 357
+Num vertices: 9608
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 24
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  49%|████▉     | 54/110 [08:52<14:44, 15.80s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 289
+Num vertices: 9078
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  50%|█████     | 55/110 [09:10<15:16, 16.66s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 74
+Num vertices: 1530
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 18
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  51%|█████     | 56/110 [09:13<11:20, 12.60s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 148
+Num vertices: 4038
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  52%|█████▏    | 57/110 [09:23<10:14, 11.59s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 372
+Num vertices: 4497
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  53%|█████▎    | 58/110 [09:30<08:56, 10.33s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 524
+Num vertices: 5503
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  54%|█████▎    | 59/110 [09:39<08:31, 10.02s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 537
+Num vertices: 5732
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  55%|█████▍    | 60/110 [09:49<08:17,  9.95s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 265
+Num vertices: 5478
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 18
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  55%|█████▌    | 61/110 [10:02<08:49, 10.81s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 99
+Num vertices: 4717
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 23
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  56%|█████▋    | 62/110 [10:15<09:09, 11.46s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 84
+Num vertices: 3617
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  57%|█████▋    | 63/110 [10:27<09:13, 11.78s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 86
+Num vertices: 3784
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  58%|█████▊    | 64/110 [10:38<08:52, 11.57s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 19
+Num vertices: 580
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  59%|█████▉    | 65/110 [10:41<06:39,  8.88s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 85
+Num vertices: 2491
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  60%|██████    | 66/110 [10:45<05:31,  7.53s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 167
+Num vertices: 2609
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  61%|██████    | 67/110 [10:50<04:49,  6.74s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 196
+Num vertices: 2929
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 13
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  62%|██████▏   | 68/110 [10:56<04:33,  6.50s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 189
+Num vertices: 2742
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 18
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  63%|██████▎   | 69/110 [11:01<04:10,  6.11s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 147
+Num vertices: 3532
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  64%|██████▎   | 70/110 [11:08<04:09,  6.24s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 478
+Num vertices: 8117
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  65%|██████▍   | 71/110 [11:25<06:10,  9.50s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 1005
+Num vertices: 8712
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  65%|██████▌   | 72/110 [11:45<07:58, 12.58s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 98
+Num vertices: 2035
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  66%|██████▋   | 73/110 [11:49<06:10, 10.01s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 93
+Num vertices: 2097
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 18
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  67%|██████▋   | 74/110 [11:54<05:03,  8.44s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 123
+Num vertices: 6122
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 9
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  68%|██████▊   | 75/110 [12:06<05:38,  9.67s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 187
+Num vertices: 8660
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 13
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  69%|██████▉   | 76/110 [12:25<07:00, 12.36s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 122
+Num vertices: 6118
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  70%|███████   | 77/110 [12:38<06:50, 12.44s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 179
+Num vertices: 8702
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  71%|███████   | 78/110 [12:52<07:01, 13.18s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 106
+Num vertices: 3932
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  72%|███████▏  | 79/110 [13:02<06:13, 12.06s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 67
+Num vertices: 2768
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  73%|███████▎  | 80/110 [13:10<05:25, 10.84s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 376
+Num vertices: 3453
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  74%|███████▎  | 81/110 [13:15<04:26,  9.19s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 278
+Num vertices: 3190
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  75%|███████▍  | 82/110 [13:21<03:48,  8.15s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 156
+Num vertices: 3313
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  75%|███████▌  | 83/110 [13:29<03:43,  8.28s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 132
+Num vertices: 3408
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  76%|███████▋  | 84/110 [13:38<03:35,  8.29s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 123
+Num vertices: 3136
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  77%|███████▋  | 85/110 [13:46<03:26,  8.27s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 134
+Num vertices: 1433
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  78%|███████▊  | 86/110 [13:49<02:41,  6.74s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 170
+Num vertices: 1489
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  79%|███████▉  | 87/110 [13:52<02:06,  5.52s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 101
+Num vertices: 2690
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  80%|████████  | 88/110 [13:55<01:47,  4.89s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 959
+Num vertices: 10001
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 17
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  81%|████████  | 89/110 [14:18<03:34, 10.21s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 198
+Num vertices: 1112
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 15
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  82%|████████▏ | 90/110 [14:20<02:36,  7.82s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 76
+Num vertices: 3156
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 18
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  83%|████████▎ | 91/110 [14:30<02:38,  8.33s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 63
+Num vertices: 2603
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  84%|████████▎ | 92/110 [14:38<02:30,  8.36s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 88
+Num vertices: 1778
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  85%|████████▍ | 93/110 [14:43<02:04,  7.30s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 69
+Num vertices: 2291
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  85%|████████▌ | 94/110 [14:48<01:47,  6.69s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 190
+Num vertices: 3198
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 21
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  86%|████████▋ | 95/110 [14:54<01:37,  6.48s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 72
+Num vertices: 3455
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 10
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  87%|████████▋ | 96/110 [15:02<01:37,  6.99s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 151
+Num vertices: 5055
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  88%|████████▊ | 97/110 [15:14<01:48,  8.34s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 216
+Num vertices: 3106
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 20
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  89%|████████▉ | 98/110 [15:21<01:35,  7.95s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 163
+Num vertices: 2690
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 22
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  90%|█████████ | 99/110 [15:27<01:20,  7.34s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 114
+Num vertices: 1628
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 15
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  91%|█████████ | 100/110 [15:30<01:01,  6.17s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 130
+Num vertices: 1875
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 15
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  92%|█████████▏| 101/110 [15:34<00:49,  5.49s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 730
+Num vertices: 4521
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 25
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  93%|█████████▎| 102/110 [15:42<00:48,  6.09s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 784
+Num vertices: 4574
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  94%|█████████▎| 103/110 [15:50<00:46,  6.69s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 40
+Num vertices: 1687
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 11
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  95%|█████████▍| 104/110 [15:59<00:45,  7.59s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 277
+Num vertices: 6087
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 14
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  95%|█████████▌| 105/110 [16:13<00:46,  9.36s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 112
+Num vertices: 4649
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 19
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  96%|█████████▋| 106/110 [16:25<00:40, 10.04s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 541
+Num vertices: 8945
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  97%|█████████▋| 107/110 [16:47<00:41, 13.76s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 211
+Num vertices: 8504
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 16
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  98%|█████████▊| 108/110 [17:11<00:33, 16.87s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 854
+Num vertices: 10001
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 21
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical:  99%|█████████▉| 109/110 [17:53<00:24, 24.31s/it]Starting scale solver (only selecting inliers if scale estimation has been disabled).
+Scale estimation complete.
+Max core number: 332
+Num vertices: 2112
+Max Clique of scale estimation inliers: 
+Using chain graph for GNC rotation.
+Starting rotation solver.
+GNC rotation estimation noise bound:0.1
+GNC rotation estimation noise bound squared:0.01
+GNC-TLS solver terminated due to cost convergence.
+Cost diff: 0
+Iterations: 11
+Rotation estimation complete.
+Starting translation solver.
+Translation estimation complete.
+classical: 100%|██████████| 110/110 [17:57<00:00, 18.22s/it]classical: 100%|██████████| 110/110 [17:57<00:00,  9.79s/it]

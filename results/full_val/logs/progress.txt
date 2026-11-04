@@ -1,0 +1,35 @@
+[2026-11-04 18:35:48] start download_labels
+[2026-11-04 18:42:44] ok download_labels (6 min)
+[2026-11-04 18:42:44] start pairs
+[2026-11-04 18:42:45] ok pairs (0 min)
+[2026-11-04 18:42:45] start pairs_aligned
+[2026-11-04 18:42:45] ok pairs_aligned (0 min)
+[2026-11-04 18:42:45] start ours
+[2026-11-04 18:49:10] ok ours (6 min)
+[2026-11-04 18:49:10] start eval_ours
+[2026-11-04 18:51:39] ok eval_ours (2 min)
+[2026-11-04 18:51:39] start classical
+[2026-11-04 19:09:40] ok classical (18 min)
+[2026-11-04 19:09:40] start prep_baselines
+[2026-11-04 19:15:46] ok prep_baselines (6 min)
+[2026-11-04 19:15:46] start sgaligner
+[2026-11-04 19:16:12] FAILED (exit 1) sgaligner (0 min)
+[2026-11-04 19:16:12] start sgpgm
+[2026-11-04 19:16:20] FAILED (exit 1) sgpgm (0 min)
+[2026-11-04 19:16:20] start eval
+[2026-11-04 19:19:14] ok eval (2 min)
+[2026-11-04 19:19:14] start ours_aligned
+[2026-11-04 19:25:19] ok ours_aligned (6 min)
+[2026-11-04 19:25:19] start classical_aligned
+[2026-11-04 19:42:48] ok classical_aligned (17 min)
+[2026-11-04 19:42:48] start prep_aligned
+[2026-11-04 19:48:20] ok prep_aligned (5 min)
+[2026-11-04 19:48:20] start sgaligner_aligned
+[2026-11-04 19:48:30] FAILED (exit 1) sgaligner_aligned (0 min)
+[2026-11-04 19:48:30] start sgpgm_aligned
+[2026-11-04 19:48:37] FAILED (exit 1) sgpgm_aligned (0 min)
+[2026-11-04 19:48:37] start eval_aligned
+[2026-11-04 19:50:58] ok eval_aligned (2 min)
+[2026-11-04 19:50:58] waiting for the sequence download
+[2026-11-04 19:50:58] ok download_sequences: done: 157/157 sequence.zip present
+[2026-11-04 19:50:58] all done

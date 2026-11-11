@@ -307,7 +307,6 @@ pre {
   padding: 14px 16px; overflow-x: auto; margin: 14px 0;
 }
 pre code { background: none; padding: 0; }
-.copy-row { display: flex; justify-content: flex-end; margin: -8px 0 14px; }
 
 /* ---------- news ---------- */
 .news { list-style: none; padding: 0; margin: 0; }
@@ -375,13 +374,6 @@ footer .sep { color: var(--rule); margin: 0 8px; }
   border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px;
   background: var(--surface);
 }
-.toast {
-  position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 14px);
-  background: var(--fg); color: var(--bg); font-family: var(--font-head);
-  font-size: 13.5px; font-weight: 600; padding: 9px 16px; border-radius: 8px;
-  opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease;
-}
-.toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 /* ---------- narrow screens ---------- */
 @media (max-width: 880px) {

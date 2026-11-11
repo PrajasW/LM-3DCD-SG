@@ -8,34 +8,10 @@ not observed, and edits the map per object.
 CS7.503 Mobile Robotics (IIIT Hyderabad) course project by **Ch Shreyash** (2024121008), **Farzana S** (2024121006) and
 **Prajas Wadekar** (2024121009).
 
-**Project page: <https://prajasw.github.io/LM-3DCD-SG/>** — the site lives in [`docs/`](docs/) and is published with
-GitHub Pages from the `main` branch. To rebuild it after changing the report or the figures, run
-`bash scripts/build_pages.sh`.
-
-<details>
-<summary><b>Publishing the project page (one-time, needs a repo admin)</b></summary>
-
-A repository admin has to switch GitHub Pages on once; after that every push to `main` republishes the site.
-
-1. Open **Settings → Pages** in <https://github.com/PrajasW/LM-3DCD-SG/settings/pages>.
-2. Under **Source**, choose **Deploy from a branch**.
-3. Set **Branch** to `main` and **Folder** to `/docs`.
-4. **Save**. The site is live a minute later at <https://prajasw.github.io/LM-3DCD-SG/>.
-
-Optionally, set the same URL as the repository *homepage* in **Settings → General → Website** so that GitHub shows a
-link to it in the sidebar.
-
-To edit the site, change [`docs/index.html`](docs/index.html) and [`docs/assets/`](docs/assets/), then push. There is no
-build step — plain HTML, CSS and a little JavaScript, with MathJax for the equations. If the report or the figures
-change, run `bash scripts/build_pages.sh` first so the page serves the up-to-date PDF.
-
-</details>
-
 | Document | File |
 |---|---|
 | **Mid-submission report (Phase 1)** | [`report/main.pdf`](report/main.pdf) (LaTeX source in [`report/`](report/)) |
 | Proposal and timeline | [`docs/proposal_timeline.pdf`](docs/proposal_timeline.pdf) (course LaTeX template: [`docs/proposal_timeline.tex`](docs/proposal_timeline.tex)) |
-| Project page (website) | [`docs/index.html`](docs/index.html) (styles in [`docs/assets/`](docs/assets/), figures in [`docs/img/`](docs/img/)) |
 
 **Status (Nov 2026)**
 
@@ -177,7 +153,6 @@ scripts/
   run_full_val.sh          full validation split end to end (+ RGB-D sequences for Phase 2)
   run_full_val_learned.sh  SGAligner / SG-PGM only on the full split; waits until CUDA works
   download_sequences.py    RGB-D sequences (sequence.zip) for Step 5
-  build_pages.sh           refresh the project page in docs/ from the report and the figures
 baselines/
   setup_baselines.sh       fetch pinned upstream commits, apply patch, build extensions, download weights
   patches/                 sgaligner.patch
@@ -185,8 +160,7 @@ baselines/
   requirements_sgbase.txt  exact package versions of the baseline environment
 tests/test_pipeline.py     synthetic rooms: Kabsch, pose invariance, duplicates, moved group, declining
 report/                    mid-submission report: main.tex (course template, 11pt), references.bib, figures/, main.pdf
-docs/                      project page (GitHub Pages): index.html, assets/, img/, paper/
-                           proposal (PDF + LaTeX template + references.bib), study guide, README images
+docs/                      proposal (PDF + LaTeX template + references.bib), study guide, README images
 ```
 
 ## Setup

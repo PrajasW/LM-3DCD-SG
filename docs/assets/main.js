@@ -1,4 +1,4 @@
-/* Small helpers for the LM-3DCD-SG project page: theme toggle, nav scroll-spy, copy-to-clipboard. */
+/* Small helpers for the LM-3DCD-SG project page: theme toggle and nav scroll-spy. */
 (function () {
   "use strict";
 
@@ -82,42 +82,4 @@
   window.addEventListener("resize", spy);
   spy();
 
-  /* ---------- copy to clipboard ---------- */
-  var toast = document.createElement("div");
-  toast.className = "toast";
-  document.body.appendChild(toast);
-  var toastTimer = null;
-
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 1800);
-  }
-
-  document.addEventListener("click", function (ev) {
-    var btn = ev.target.closest("[data-copy]");
-    if (!btn) return;
-    var src = document.getElementById(btn.getAttribute("data-copy"));
-    if (!src) return;
-    var text = (src.innerText || src.textContent || "").trim();
-    var done = function () { showToast("Copied to clipboard"); };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
-    } else {
-      fallback(text, done);
-    }
-  });
-
-  function fallback(text, done) {
-    var ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "absolute";
-    ta.style.left = "-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand("copy"); done(); } catch (e) { showToast("Copy failed"); }
-    document.body.removeChild(ta);
-  }
 })();

@@ -12,6 +12,25 @@ CS7.503 Mobile Robotics (IIIT Hyderabad) course project by **Ch Shreyash** (2024
 GitHub Pages from the `main` branch. To rebuild it after changing the report or the figures, run
 `bash scripts/build_pages.sh`.
 
+<details>
+<summary><b>Publishing the project page (one-time, needs a repo admin)</b></summary>
+
+A repository admin has to switch GitHub Pages on once; after that every push to `main` republishes the site.
+
+1. Open **Settings → Pages** in <https://github.com/PrajasW/LM-3DCD-SG/settings/pages>.
+2. Under **Source**, choose **Deploy from a branch**.
+3. Set **Branch** to `main` and **Folder** to `/docs`.
+4. **Save**. The site is live a minute later at <https://prajasw.github.io/LM-3DCD-SG/>.
+
+Optionally, set the same URL as the repository *homepage* in **Settings → General → Website** so that GitHub shows a
+link to it in the sidebar.
+
+To edit the site, change [`docs/index.html`](docs/index.html) and [`docs/assets/`](docs/assets/), then push. There is no
+build step — plain HTML, CSS and a little JavaScript, with MathJax for the equations. If the report or the figures
+change, run `bash scripts/build_pages.sh` first so the page serves the up-to-date PDF.
+
+</details>
+
 | Document | File |
 |---|---|
 | **Mid-submission report (Phase 1)** | [`report/main.pdf`](report/main.pdf) (LaTeX source in [`report/`](report/)) |

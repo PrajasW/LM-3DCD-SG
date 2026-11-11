@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LM-3DCD-SG · Lifelong Mapping &amp; 3D Change Detection on Object-Level Scene Graphs</title>
+<meta name="description" content="Training-free relocalization and per-object change detection for a robot that revisits a changing indoor room, on object-level 3D scene graphs. Course project, CS7.503 Mobile Robotics, IIIT Hyderabad.">
+<meta name="author" content="Ch Shreyash, Farzana S, Prajas Wadekar">
+<meta name="theme-color" content="#2a5fc0">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lifelong Mapping &amp; 3D Change Detection on Object-Level Scene Graphs">
+<meta property="og:description" content="Training-free relocalization and per-object change detection for a robot that revisits a changing indoor room.">
+<meta property="og:image" content="https://prajasw.github.io/LM-3DCD-SG/img/pipeline.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+
+<script>
+  /* Apply the saved theme before first paint so the page never flashes. */
+  (function () {
+    try {
+      var t = localStorage.getItem("lm3dcdsg-theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [["\\(", "\\)"]],
+      displayMath: [["\\[", "\\]"]],
+      processEscapes: true
+    },
+    options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="inner">
+    <a class="brand" href="#top">LM-3DCD-SG <span>· IIIT Hyderabad</span></a>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#problem">Problem</a>
+      <a href="#method">Method</a>
+      <a href="#protocol">Protocol</a>
+      <a href="#results">Results</a>
+      <a href="#failures">Failures</a>
+      <a href="#baselines">Baselines</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#reproduce">Reproduce</a>
+      <a href="#paper">Paper</a>
+    </nav>
+    <button class="icon-btn" data-theme-toggle>Dark</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================ HERO ============================ -->
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">CS7.503 Mobile Robotics · Course Project · IIIT Hyderabad</p>
+    <h1>Lifelong Mapping &amp; 3D Change Detection on Object-Level Scene Graphs</h1>
+    <p class="tagline">
+      Training-free relocalization and per-object change detection for a robot that
+      returns to a room it mapped before, finds its pose in the old map without an initial guess,
+      says which objects moved, added or disappeared, and edits the map object by object.
+    </p>
+
+    <p class="authors">
+      Ch Shreyash<sup>2024121008</sup>
+      <span class="sep">·</span>
+      Farzana S<sup>2024121006</sup>
+      <span class="sep">·</span>
+      Prajas Wadekar<sup>2024121009</sup>
+    </p>
+    <p class="affil">
+      Machine Learning and Robotics Laboratory, <sup>1</sup> International Institute of Information Technology, Hyderabad
+      <span class="sep">·</span> <a href="https://github.com/PrajasW/LM-3DCD-SG">github.com/PrajasW/LM-3DCD-SG</a>
+    </p>
+
+    <div class="badges">
+      <span class="badge accent">Training-free</span>
+      <span class="badge accent">No learned model</span>
+      <span class="badge ok">Phase 1 complete</span>
+      <span class="badge">3RScan · 47 val rooms · 110 visit pairs</span>
+      <span class="badge moved">Phase 2 in progress</span>
+    </div>
+
+    <div class="btnrow">
+      <a class="btn primary" href="paper/mid-report.pdf">Mid-report (PDF) <span class="gl">↗</span></a>
+      <a class="btn" href="https://github.com/PrajasW/LM-3DCD-SG">Code <span class="gl">↗</span></a>
+      <a class="btn" href="https://github.com/PrajasW/LM-3DCD-SG/blob/main/docs/proposal_timeline.pdf">Proposal &amp; timeline <span class="gl">↗</span></a>
+      <button class="btn" data-copy="bibtex">Copy BibTeX</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v">89.1<small>%</small></div><div class="k">visits relocalized @ 20 cm / 20°</div></div>
+      <div class="stat"><div class="v">0.13<small> s</small></div><div class="k">per pair — ~20× faster than FPFH + RANSAC</div></div>
+      <div class="stat"><div class="v">5</div><div class="k">wrong poses, the fewest of any method</div></div>
+      <div class="stat"><div class="v">45.4<small>% F1</small></div><div class="k">moved-object detection (52.5% recall ≥10 cm)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ NEWS ============================ -->
+<section id="news">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">00</span> Updates</h2>
+      <p>Living log of the project. Newest first.</p>
+    </div>
+    <ul class="news">
+      <li>
+        <span class="date">Nov 2026</span>
+        <span class="txt"><span class="pill wip">Phase 2</span>Structure-only fallback for rooms with too few static objects; group detection for objects that moved together; depth-based added / removed / not-observed labelling.</span>
+      </li>
+      <li>
+        <span class="date">Nov 2026</span>
+        <span class="txt"><span class="pill ok">Phase 1</span>Full validation split evaluated: 47 rooms, 110 visit pairs, all methods on identical inputs. Every failure case documented in the appendix.</span>
+      </li>
+      <li>
+        <span class="date">Nov 2026</span>
+        <span class="txt"><span class="pill ok">Phase 1</span>Steps 1–3 (relocalization) and Step 4 (moved objects) implemented, tested with 8 synthetic unit tests and the full 3RScan validation split.</span>
+      </li>
+      <li>
+        <span class="date">Nov 2026</span>
+        <span class="txt"><span class="pill">Launch</span>Project page published, built from the mid-submission report and the repository artefacts.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ OVERVIEW ============================ -->
+<section id="overview">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">01</span> Overview</h2>
+      <p>A robot revisits a room it mapped before. The room has changed, the robot has no idea where it is, and nothing was trained to handle either.</p>
+    </div>
+
+    <div class="abstract">
+      <h3>Abstract</h3>
+      <p>
+        A robot that returns to a room it mapped before must find its pose in the old map without an initial guess,
+        decide which objects stayed, moved, appeared or disappeared, and update the map. We solve this on
+        object-level 3D scene graphs, without training. Our method is based on the idea that objects that did not
+        move stay at the same distance from each other. The largest set of object matches whose distances all agree
+        is the static part of the room and gives the pose; the remaining matches are tested on their points to find
+        the objects that moved, alone or together. On all 110 visit pairs of the 3RScan validation split, each under
+        a random rigid transform, our method relocalizes 89% of the visits, against 94% for dense registration that
+        takes twenty times longer, and returns the fewest wrong poses. Meanwhile, learned scene-graph aligners
+        succeed only on about a third of the visits. Our method finds 53% of objects moved by more than 10 cm, with a
+        median pose error of 3.6 cm, at an F1 of 45% against 32% for a baseline that, given our pose, matches each
+        object to the nearest same-class object and decides that it has moved if its centroid shifted.
+      </p>
+    </div>
+
+    <figure>
+      <div class="frame">
+        <img src="img/pipeline.png" alt="Pipeline: from a new visit's point cloud and segments, build the scene graph, propose candidate matches, keep the largest pairwise-consistent set, estimate the pose, then find moved objects and edit the map.">
+      </div>
+      <figcaption>
+        <b>Pipeline.</b> Steps 1–3 relocalize a visit inside the map; Step 4 finds the objects that moved.
+        Steps 5–6 (dashed) classify removed / added / not-observed objects from the depth images and edit the map
+        object by object.
+      </figcaption>
+    </figure>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Pose, not a guess</h3>
+        <p>Relocalization without an initial guess or odometry between visits, on the full validation split of 3RScan.</p>
+      </div>
+      <div class="card">
+        <h3>Per-object changes</h3>
+        <p>Static, moved, added, removed and not-observed objects are labelled individually, not as unlabelled clusters.</p>
+      </div>
+      <div class="card">
+        <h3>Map editing</h3>
+        <p>The map keeps object identities across visits, so it grows with the number of objects, not with the number of visits.</p>
+      </div>
+      <div class="card">
+        <h3>Nothing trained</h3>
+        <p>No learned model, no weight fitting, no per-dataset tuning: every threshold was chosen on training rooms only.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROBLEM ============================ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">02</span> Problem statement</h2>
+      <p>Why per-object lifelong mapping is not just relocalization.</p>
+    </div>
+
+    <h3 class="sub">Map and observations</h3>
+    <p>
+      The map is an object-level scene graph \(G^M=(V^M,E^M)\) in a fixed map frame. Each object node
+      \(o\in V^M\) stores its points \(P_o\subset\mathbb{R}^3\), centroid \(\mathbf{c}_o\), extents
+      \(\mathbf{e}_o\in\mathbb{R}^3\), class \(\ell_o\), height above the floor \(h_o\) and change history.
+      We use two kinds of nodes: <b>structural</b> nodes holding the floor and walls, and <b>object</b> nodes.
+      Edges hold spatial relations. Each visit gives a second graph \(G^N=(V^N,E^N)\) in its own frame. The two
+      frames differ by an unknown rigid transform \(\mathbf{T}^\star\in SE(3)\); there is no initial guess and no
+      odometry between visits.
+    </p>
+
+    <h3 class="sub">The three tasks</h3>
+    <div class="cards">
+      <div class="card">
+        <h3><span class="tag done">P1</span> Pose</h3>
+        <p>Estimate \(\hat{\mathbf{T}}\in SE(3)\) mapping every unchanged object onto its map position
+        \(\hat{\mathbf{T}}\mathbf{c}_{o'}\approx\mathbf{c}_o\) — or report a failure \(\bot\) when it cannot be determined.</p>
+      </div>
+      <div class="card">
+        <h3><span class="tag done">P2</span> Change labels</h3>
+        <p>One-to-one matches \(S\subset V^M\times V^N\) for static objects, moved objects with their rigid motions
+        \(M_o\), removed \(R\subset V^M\), added \(A\subset V^N\), not observed \(U\subset V^M\). An object counts
+        as removed or added only if the depth images show its space is empty.</p>
+      </div>
+      <div class="card">
+        <h3><span class="tag todo">P3</span> Map update</h3>
+        <p>The updated map \(G^{M'}\), edited object by object so that identities persist and \(|G^{M'}|\) grows with
+        the number of objects rather than the number of visits.</p>
+      </div>
+    </div>
+
+    <p>
+      So far we have solved <b>(P1)</b> and the static and moved parts of <b>(P2)</b> on the annotated 3RScan / 3DSSG
+      segments. A visit counts as relocalized if both its rotation error \(\angle(\hat{R},R^\star)\) and its
+      translation error \(\|\hat{\mathbf{t}}-\mathbf{t}^\star\|\) are below the thresholds of the RIO benchmark,
+      \((\tau_t,\tau_r)\in\{(10\,\text{cm},10^\circ),(20\,\text{cm},20^\circ)\}\). A \(\bot\) counts as a failure.
+    </p>
+
+    <h3 class="sub">What related systems provide</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th><th>Pose</th><th>Changes</th><th>Map edit</th><th>Training-free</th><th>Multi-visit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>SGAligner, SG-PGM, SG-Reg</td><td>✓</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+          <tr><td>ROMAN</td><td>✓</td><td>–</td><td>–</td><td>✓</td><td>–</td></tr>
+          <tr><td>Objects Can Move / Living Scenes</td><td>–</td><td>◦</td><td>–</td><td>✓ / –</td><td>–</td></tr>
+          <tr class="ours"><td>Ours (proposed)</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        </tbody>
+        <caption>✓ yes, – no, ◦ partial. "Pose" means relocalization without an initial alignment; "Changes" means
+        per-object moved / added / removed labels; "Multi" means more than two visits.</caption>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ METHOD ============================ -->
+<section id="method">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">03</span> Method</h2>
+      <p>
+        Six steps: build a frame-independent description of each object, propose candidate matches, keep the
+        largest geometrically consistent set, take the pose from it, test the leftovers for motion, then edit the map.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3><span class="n">0</span> Scene-graph construction <span class="tag done">implemented</span></h3>
+      <p>
+        We load the annotated 3RScan instance segments, their labels and the 3DSSG relations. Floor, wall and ceiling
+        segments become structural nodes; every other segment with at least 50 points becomes an object node. A plane
+        fitted to the floor gives the up direction. Each object is described by quantities that do not change with the
+        robot's frame: its height above the floor, its vertical extent, and the sides of the smallest rectangle around
+        its footprint.
+      </p>
+      <p>
+        Object extents \(\mathbf{e}\) are deliberately pose-independent: the vertical extent is measured along the floor
+        normal, and the two horizontal extents come from the <b>minimum-area bounding rectangle</b> of the footprint.
+        PCA axes are unstable for square footprints, which is exactly the case for tables and chairs.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3><span class="n">1</span> Candidate matches <span class="tag done">implemented</span></h3>
+      <p>
+        We first propose which visit objects could be which map objects, using only the frame-independent description of
+        each object. For every map object \(a\) and visit object \(b\) of the same class we compute a dissimilarity
+        score from their three extents \(e_{\cdot,k}\) (the two footprint sides and the vertical extent) and their
+        heights above the floor \(h\):
+      </p>
+      <div class="eq">
+        \[
+          \kappa(a,b)=\sum_{k=1}^{3}\bigl\lVert \log(e_{a,k}+\epsilon)-\log(e_{b,k}+\epsilon)\bigr\rVert
+          +\frac{\lvert h_a-h_b\rvert}{\sigma_h}
+        \]
+      </div>
+      <p>
+        The log makes the size term relative, so a 10% size difference counts the same for smaller or larger objects.
+        A pair \((a,b)\) becomes a candidate match if \(\kappa(a,b)\le 2.5\) and either \(b\) is one of the three visit
+        objects most similar to \(a\), or \(a\) is one of the three map objects most similar to \(b\). Identical
+        objects, such as a row of chairs, thus get several candidates each, and Step 2 decides which one is right.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3><span class="n">2</span> Largest consistent set <span class="tag done">implemented</span></h3>
+      <p>
+        If two objects did not move, the distance between them is the same in the map and in the visit. We use this to
+        test pairs of candidate matches: two matches \(m=(a,b)\) and \(m'=(a',b')\) with \(a\neq a'\) and
+        \(b\neq b'\) are compatible if
+      </p>
+      <div class="eq">
+        \[
+          \bigl\lVert \lVert \mathbf{c}_a-\mathbf{c}_{a'}\rVert-\lVert \mathbf{c}_b-\mathbf{c}_{b'}\rVert\bigr\rVert
+          \le \tau_{mm'},\qquad
+          \bigl\lvert (h_a-h_{a'})-(h_b-h_{b'})\bigr\rvert \le \tau_{mm'},\qquad
+          \tau_{mm'}=\epsilon+\beta\,(r_m+r_{m'})
+        \]
+      </div>
+      <p>
+        The first condition says that the distance between \(a\) and \(a'\) in the map equals the distance between
+        \(b\) and \(b'\) in the visit, up to a tolerance \(\tau_{mm'}\). The second says the same for how much higher
+        one object sits than the other; it rejects an upside-down scene, which has the same distances. The tolerance
+        has a fixed part \(\epsilon\) for noise and a part that grows with \(r_m\), the larger radius of the two objects
+        in \(m\), because if only part of a large object is seen, its centroid computed from that part could lie far
+        from its centroid in the map.
+      </p>
+      <p>
+        The <b>static set</b> \(S\) is the largest group of candidates that are all pairwise compatible, i.e. the
+        maximum clique of the graph that links compatible candidates. Requiring a clique filters out most of the wrong
+        matches that survive the distance test alone, because a wrong match can only join \(S\) if it passes the test
+        with every other member of \(S\). Re-solving on the remaining candidates gives further cliques, which are
+        candidate groups of objects that <b>moved together</b> — the input to Step 4.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3><span class="n">3</span> Pose <span class="tag done">implemented</span></h3>
+      <p>
+        With at least three static objects that do not lie on one line, we fit a rigid transform that maps the visit
+        centroids of \(S\) onto their map centroids in closed form (weighted Kabsch / Umeyama). Each object
+        \(i\in S\) is weighted by \(w_i=(0.1\,\text{m}+r_i)^{-1}\), so large objects count less because their centroids
+        are less certain. The two floor normals are added as an extra direction pair, weighted by the weighted
+        variance of the visit centroids, so that both floors are level.
+      </p>
+      <p>
+        Point-to-plane ICP on the points of \(S\) and of the floor, walls and ceiling refines the pose. The method
+        <b>declines</b> \((\bot)\) if \(S\) is too small, nearly collinear, or fits the points poorly after ICP.
+        Declining is deliberate: a wrong pose is worse than no pose.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3><span class="n">4</span> Objects that moved <span class="tag done">implemented</span></h3>
+      <p>
+        After Step 3 a static object lands on itself and a moved object does not. Step 4 pairs the remaining objects in
+        three one-to-one, same-class stages and checks every proposed motion \(M\) on the objects' points:
+      </p>
+      <div class="eq">
+        \[
+          f(M)\ge f_{\min},\qquad f(M)-f(I)\ge\Delta,\qquad
+          \angle(\mathbf{n}_M,\hat{\mathbf{n}}_M)\le\theta,\qquad \bar{d}(M)\ge d_{\min}
+        \]
+      </div>
+      <p>
+        where \(f(M)\) is the share of a map object's points that lie within 5&nbsp;cm of a point of the visit object
+        after moving it by \(M\), \(I\) means no motion, \(\mathbf{n}_M\) is the up direction of the map, and
+        \(\bar{d}\) is the average distance the points travel. A motion is accepted only if it passes all four tests:
+        it fits well (\(f_{\min}=0.6\)), it fits clearly better than leaving the object where it was (\(\Delta=0.3\)),
+        it keeps the object upright (\(\theta=15^\circ\)), and it moves the object noticeably (\(d_{\min}=10\)&nbsp;cm).
+      </p>
+      <ul class="plain">
+        <li><b>Static recovery.</b> Objects outside \(S\) whose centroids coincide under \(\hat{\mathbf{T}}\), or whose
+          points already overlap in place, are also matched as static — an opened curtain, for instance.
+          Conversely, an object turned on the spot keeps its centroid and can end up in \(S\), so every static match is
+          re-checked on its points.</li>
+        <li><b>Groups.</b> Objects moved together keep their mutual distances, so the unused Step-1 candidates are
+          searched again for maximum cliques. Each clique of two or more objects gets one shared motion, which must
+          pass Eq. (3).</li>
+        <li><b>Single objects.</b> Each remaining same-class pair is aligned by ICP, started from eight orientations
+          \(45^\circ\) apart about the vertical since the object may have been turned, and kept if the best fit passes
+          Eq. (3). Since identical objects can fit several partners, each pair gets a cost, and the Hungarian algorithm
+          picks the one-to-one pairing with the lowest total cost.</li>
+      </ul>
+    </div>
+
+    <div class="step planned">
+      <h3><span class="n">5</span> Added, removed and not observed <span class="tag todo">Phase 2</span></h3>
+      <p>
+        Each unmatched object is checked in the visit's depth images: empty space means it was removed, unseen space
+        means it was added, and anything else is <i>not observed</i> and stays in the map untouched.
+      </p>
+    </div>
+
+    <div class="step planned">
+      <h3><span class="n">6</span> Per-object map edit <span class="tag todo">Phase 2</span></h3>
+      <p>
+        The map is edited object by object so that identities persist: moved objects update their pose and record their
+        motion, added objects enter the graph, removed objects are marked rather than deleted, and the size of the map
+        tracks the number of objects rather than the number of visits.
+      </p>
+    </div>
+
+    <h3 class="sub">Parameters</h3>
+    <p>
+      Every threshold lives in <a href="https://github.com/PrajasW/LM-3DCD-SG/blob/main/configs/default.yaml"><code>configs/default.yaml</code></a>.
+      They were chosen on six <b>train</b> rooms only — never on the validation pairs — and a sweep over
+      \(\epsilon,\beta,k\) and the cost gate changed little there.
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Step</th><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Graph</td><td>minimum segment size</td><td>50 points</td></tr>
+          <tr><td>1</td><td>candidates per object \(k\)</td><td>3 (both directions)</td></tr>
+          <tr><td>1</td><td>extent offset \(\epsilon\), height scale \(\sigma_h\)</td><td>5 cm, 0.3 m</td></tr>
+          <tr><td>1</td><td>cost gate</td><td>\(\kappa \le 2.5\), same class</td></tr>
+          <tr><td>2</td><td>tolerance \(\epsilon,\beta\)</td><td>0.10 m, 0.10</td></tr>
+          <tr><td>3</td><td>min. static objects / spread</td><td>3 / 0.2 m</td></tr>
+          <tr><td>3</td><td>ICP voxel, radii</td><td>5 cm; 0.3, 0.1, 0.05 m</td></tr>
+          <tr><td>3</td><td>min. ICP fitness</td><td>0.3</td></tr>
+          <tr><td>4</td><td>\(f_{\min},\Delta,\theta,d_{\min}\)</td><td>0.6, 0.3, 15°, 0.10 m</td></tr>
+          <tr><td>4</td><td>in-place overlap for static</td><td>0.5</td></tr>
+          <tr><td>4</td><td>ICP voxel, radii; headings</td><td>3 cm; 0.15, 0.05 m; 8</td></tr>
+          <tr><td>4</td><td>assignment weights: fit, distance</td><td>2.0, 0.1 / m</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROTOCOL ============================ -->
+<section id="protocol">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">04</span> Evaluation protocol</h2>
+      <p>Every method sees exactly the same input, and the ground truth is used only for scoring.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Pairs</h3>
+        <p>A 3RScan reference scan is the map and one of its rescans is the new visit. Phase 1 uses the annotated instance segments.</p>
+      </div>
+      <div class="card">
+        <h3>Random transform</h3>
+        <p>Each pair carries one stored random rigid transform: a uniform rotation on \(SO(3)\) and a translation drawn from \(\mathcal{U}(-2,2)^3\)&nbsp;m, applied before any method sees the data.</p>
+      </div>
+      <div class="card">
+        <h3>Ground truth</h3>
+        <p>\(\mathbf{T}^\star=\mathbf{T}_{\text{rescan}\to\text{ref}}\,\mathbf{T}_{\text{rand}}^{-1}\), taken from <code>3RScan.json</code> (stored column-major).</p>
+      </div>
+      <div class="card">
+        <h3>Aligned run</h3>
+        <p>A second run gives the rescan already aligned to the reference — the setting the learned baselines were trained in, and a check that their adapters work.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Metrics</h3>
+    <ul class="plain">
+      <li>success at the RIO thresholds, 10 cm / 10° and 20 cm / 20°;</li>
+      <li>registration recall (RR): the share of visits whose points lie within 0.2 m RMSE of their true position, as in SGAligner, SG-PGM and SG-Reg;</li>
+      <li>median rotation (RRE) and translation (RTE) error of the returned poses;</li>
+      <li>time per pair;</li>
+      <li>for moved objects: precision, recall (over moves of at least 10 cm), and the median ADD-S of correct moves.</li>
+    </ul>
+    <p>
+      A pair on which a method declines to return a pose counts as a failure. A map object labelled <i>moved</i> is
+      correct only if 3RScan annotates it as moved <b>and</b> we match it to the right visit instance. Moves in
+      declined visits count as misses.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ RESULTS ============================ -->
+<section id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">05</span> Results</h2>
+      <p>
+        Full validation split: 47 rooms, 110 visit pairs, every method on identical inputs.
+        "Wrong" means a pose was returned but falls outside 20 cm / 20°.
+      </p>
+    </div>
+
+    <h3 class="sub">Relocalization under random rigid transforms</h3>
+    <div class="tablewrap">
+      <table class="wide">
+        <thead>
+          <tr>
+            <th>Method</th><th>Returned</th><th>Wrong</th>
+            <th>succ. 10/10</th><th>succ. 20/20</th><th>RR @ 0.2 m</th>
+            <th>RRE (med)</th><th>RTE (med)</th><th>Time/pair</th><th>20/20 aligned</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="dim"><td>SGAligner (ICCV '23)</td><td>40.9%</td><td>9.1%</td><td>27.3%</td><td>31.8%</td><td>32.7%</td><td>1.45°</td><td>5.4 cm</td><td>3.37 s</td><td>79.1%</td></tr>
+          <tr class="dim"><td>SG-PGM (CVPR '24)</td><td>100%</td><td class="bad">66.4%</td><td>27.3%</td><td>33.6%</td><td>35.5%</td><td>17.9°</td><td>68.3 cm</td><td>4.09 s</td><td>74.5%</td></tr>
+          <tr><td>FPFH + TEASER++</td><td>100%</td><td>9.1%</td><td>75.5%</td><td>90.9%</td><td>93.6%</td><td>0.98°</td><td>3.8 cm</td><td>1.82 s</td><td>90.9%</td></tr>
+          <tr><td>FPFH + RANSAC</td><td>100%</td><td>6.4%</td><td class="best">78.2%</td><td class="best">93.6%</td><td class="best">96.4%</td><td>0.96°</td><td>3.7 cm</td><td>4.83 s</td><td class="best">92.7%</td></tr>
+          <tr><td>Ours, centroid pose only</td><td>96.4%</td><td>11.8%</td><td>59.1%</td><td>84.5%</td><td>89.1%</td><td>1.63°</td><td>7.2 cm</td><td>&lt;0.01 s</td><td>83.6%</td></tr>
+          <tr class="ours"><td>Ours (Steps 1–3)</td><td>93.6%</td><td class="best">4.5%</td><td>72.7%</td><td>89.1%</td><td>91.8%</td><td>0.97°</td><td>4.0 cm</td><td class="best">0.13 s</td><td>89.1%</td></tr>
+        </tbody>
+        <caption>
+          <b>succ. 10/10</b> = success within 10 cm and 10°, <b>succ. 20/20</b> = within 20 cm and 20°.
+          Times are per pair for the pose; our graph construction adds 0.11 s on top.
+          RR = registration recall (share of visits within 0.2 m RMSE of their true position).
+        </caption>
+      </table>
+    </div>
+
+    <div class="two-up">
+      <figure>
+        <div class="frame"><img src="img/success_curves.png" alt="Success curves: pairs relocalized against the RIO threshold, with random rigid transforms (left) and pre-aligned visits (right)."></div>
+        <figcaption><b>Success curves.</b> Pairs relocalized within \(\tau\) cm and \(\tau^\circ\), with random transforms (left) and pre-aligned visits (right).</figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><img src="img/runtime.png" alt="Scatter plot of success at 20 cm / 20 degrees against mean pose time per pair for each method."></div>
+        <figcaption><b>Accuracy against cost.</b> Success at 20 cm / 20° versus mean pose time per pair. Ours sits at the top-left.</figcaption>
+      </figure>
+    </div>
+
+    <div class="callout accent">
+      <p><b>Invariance.</b> At 20 cm / 20° and in RR our accuracy is the same with and without the random transform.
+      At 10 cm / 10° it drops from 78.2% to 72.7%: translation error is measured at the frame origin, which the
+      transform moves metres away from the scene, so a sub-degree rotation error adds centimetres.</p>
+      <p><b>The learned aligners collapse under the transform.</b> SGAligner drops from 79% to 32%, SG-PGM from 75% to
+      34%. Their node encoders take object points in world coordinates; SG-PGM's own random-transform evaluation rotated
+      only the registration points, never the scene-graph objects.</p>
+    </div>
+
+    <div class="callout accent">
+      <p><b>Accuracy and cost.</b> Ours is within the 95% intervals of both FPFH methods (Wilson: ours 82–94%,
+      RANSAC 87–97%). RANSAC succeeds on 5 pairs we fail, and we succeed on none it fails (McNemar \(p=0.06\)).
+      Ours returns the fewest wrong poses — 5, against 7–73 for the baselines — and 7 of our 12 failures are declines
+      rather than bad poses.</p>
+      <p><b>Cost breakdown.</b> Steps 1–2 take 2.6&nbsp;ms on 3–120 candidates, ICP 0.13&nbsp;s and graph construction
+      0.11&nbsp;s: about 20× less than RANSAC, on annotated segments.</p>
+      <p><b>Bonus.</b> Ours also returns object correspondences and the static set (precision 72.6%, recall 65.6%
+      against unchanged instances), which the change-detection steps need. Many of the "errors" are objects annotated as
+      moved that shifted only a few centimetres.</p>
+    </div>
+
+    <h3 class="sub">Moved objects</h3>
+    <div class="tablewrap">
+      <table class="wide">
+        <thead>
+          <tr><th>Method</th><th>Predicted</th><th>Precision</th><th>Recall</th><th>Recall ≥10 cm</th><th>F1</th><th>FPs</th><th>ADD-S (cm)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="dim"><td>Nearest centroid</td><td>517</td><td>23.6%</td><td>31.9%</td><td>49.2%</td><td>31.9%</td><td>296</td><td>7.4</td></tr>
+          <tr><td>Ours, no static check</td><td>242</td><td>36.8%</td><td>23.2%</td><td>36.9%</td><td>36.8%</td><td>75</td><td>3.7</td></tr>
+          <tr><td>Ours, no groups</td><td>327</td><td>40.7%</td><td>34.7%</td><td>53.4%</td><td>46.2%</td><td>106</td><td>3.5</td></tr>
+          <tr class="ours"><td>Ours (Step 4)</td><td>325</td><td>40.0%</td><td>33.9%</td><td>52.5%</td><td>45.4%</td><td>105</td><td>3.6</td></tr>
+          <tr><td>Ours, true pose</td><td>425</td><td>35.8%</td><td>39.7%</td><td>58.9%</td><td>44.5%</td><td>175</td><td>2.8</td></tr>
+        </tbody>
+        <caption>
+          F1 is computed from precision and recall over moves of at least 10 cm.
+          ADD-S is the median error of the point cloud placed by our motion against the annotated one.
+          383 annotated moved objects over the 110 pairs.
+        </caption>
+      </table>
+    </div>
+
+    <ul class="plain">
+      <li>Step 4 finds <b>52.5% of the moves above 10 cm</b> at 40% precision and places <b>94% of them within 10 cm</b>,
+        so the difficulty is deciding which objects moved, not how.</li>
+      <li>Checking points rather than centroids is what beats nearest-centroid matching: it catches short moves and
+        turns in place (56% against 29% recall at 10–20 cm) and flags a third as many static objects.</li>
+      <li>Most remaining errors are not geometric: 70% of false alarms are soft or hinged objects (pillows, doors,
+        plants) whose shape changes, and most misses are confusions with identical objects or objects left unmatched.</li>
+      <li>Using the true pose did not raise F1 — the bottleneck is the object matching, not the pose.</li>
+      <li>Groups do not help yet: of the 53 objects labelled moved as part of a group, only 32% really moved.</li>
+    </ul>
+
+    <h3 class="sub">Why the consistency test works</h3>
+    <div class="two-up">
+      <figure>
+        <div class="frame"><img src="img/consistency.png" alt="Histogram of the normalised distance residual for correct static matches versus wrong or moved matches, with the acceptance threshold marked."></div>
+        <figcaption><b>Distance test alone.</b> Residual over tolerance on all candidate pairs of the 110 pairs. It keeps 90.9% of correct, unchanged matches and 23.3% of the rest; the maximum clique removes most of the remainder.</figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><img src="img/relocalization.png" alt="A relocalized visit shown inside the map, with the static clique and the other consistent groups highlighted."></div>
+        <figcaption><b>One relocalized visit.</b> RTE 3.3 cm. The static clique (blue) and the remaining consistent groups (orange), which are candidates for Step 4.</figcaption>
+      </figure>
+    </div>
+
+    <figure>
+      <div class="frame"><img src="img/scene_graphs.png" alt="Top-down view of two scene graphs: a 3RScan reference scan used as the map and a rescan in an unknown frame, with 3DSSG support relations and proximity edges."></div>
+      <figcaption>
+        <b>Scene graphs.</b> The map (left) and a new visit in an unknown frame (right), top-down in their own frames.
+        Colors indicate instances; edges are 3DSSG support relations and proximity edges. 3RScan annotates 11 of the
+        visit's objects as moved and one as removed.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ FAILURES ============================ -->
+<section id="failures">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">06</span> Failure modes</h2>
+      <p>All 12 relocalization failures are listed in the mid-report's appendix. Seven of them are declines, not wrong poses.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table class="failures">
+        <thead><tr><th>Reference / rescan</th><th>Outcome</th><th>|S|</th><th>FPFH + RANSAC</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">0cac7540 / 0cac7532</td><td class="bad">wrong: one-set shift</td><td>8</td><td>–</td></tr>
+          <tr><td class="mono">0cac7540 / 0cac7534</td><td class="bad">wrong: 179° flip</td><td>5</td><td>–</td></tr>
+          <tr><td class="mono">137a8158 / 5630cfd3</td><td>near-miss: 4.6°, 34 cm</td><td>11</td><td>–</td></tr>
+          <tr><td class="mono">137a8158 / f2c76fe9</td><td>near-miss: 3.5°, 23 cm</td><td>8</td><td>–</td></tr>
+          <tr><td class="mono">c7895f27 / c7895f29</td><td>near-miss: 4.1°, 22 cm</td><td>19</td><td>–</td></tr>
+          <tr><td class="mono">10b17940 / c2d99343</td><td>decline: too few static</td><td>2</td><td>–</td></tr>
+          <tr><td class="mono">6bde60cb / 6bde60cd</td><td>decline: too few static</td><td>1</td><td>–</td></tr>
+          <tr><td class="mono">8e0f1c28 / 20c993bd</td><td>decline: degenerate</td><td>3</td><td>✓</td></tr>
+          <tr><td class="mono">8e0f1c28 / 20c993bf</td><td>decline: degenerate</td><td>3</td><td>✓</td></tr>
+          <tr><td class="mono">137a8158 / f2c76fed</td><td>decline: fitness 0.15</td><td>4</td><td>✓</td></tr>
+          <tr><td class="mono">6bde6081 / 6bde607b</td><td>decline: fitness 0.19</td><td>7</td><td>✓</td></tr>
+          <tr><td class="mono">6bde60cb / 6bde60cf</td><td>decline: fitness 0.29</td><td>5</td><td>✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="plain">
+      <li><b>Repeated layouts.</b> A café with a row of identical table, chair and menu sets and no walls. One rescan
+        is matched one set off and another is flipped 180° about the vertical; both pass the ICP fitness gate, which
+        the floor dominates.</li>
+      <li><b>Near-misses.</b> Three pairs with rotation error ≈ 4° and translation error 22–34 cm.</li>
+      <li><b>Declines.</b> Two too-few static objects, two degenerate static sets, three low ICP fitness. FPFH + RANSAC
+        solves 5 of these 7 from walls and floor, which motivates a structure-only fallback in Phase 2.</li>
+    </ul>
+
+    <div class="callout warn">
+      <p><b>Known limitation.</b> The height test rejects matches that only fit with the scene upside down. It does
+      <b>not</b> reject a reflection through a vertical plane, which keeps every distance and height difference.
+      Nothing in Steps 1–3 checks for that case yet.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BASELINES ============================ -->
+<section id="baselines">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">07</span> Baselines and fairness</h2>
+      <p>Both learned checkpoints were trained on the 3RScan <b>train</b> split; all evaluation rooms come from <b>val</b>.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table class="prose-col">
+        <thead><tr><th>Method</th><th>How it is run here</th></tr></thead>
+        <tbody>
+          <tr><td>SG-PGM (CVPR '24)</td><td>Released checkpoint and the repo's own model, dataset class and collate function.</td></tr>
+          <tr><td>SGAligner (ICCV '23)</td><td>Released checkpoint with \(K=2\) node matches, GeoTransformer (3DMatch) and GC-RANSAC.</td></tr>
+          <tr><td>FPFH + RANSAC</td><td>Open3D: 5 cm voxels, mutual filter, then point-to-plane ICP.</td></tr>
+          <tr><td>FPFH + TEASER++</td><td>TEASER++ (GNC-TLS, max clique) on mutual nearest-neighbour FPFH matches, then ICP.</td></tr>
+          <tr class="dim"><td>SG-Reg (T-RO '25), SGAligner++ (2025)</td><td>Cited only: SG-Reg releases only a ScanNet-trained model and a C++ back-end; SGAligner++ has no code.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">Fairness fixes — each one helps the baselines</h3>
+    <ul class="plain">
+      <li><b>SGAligner's RANSAC.</b> GC-RANSAC's PROSAC sampler requires correspondences sorted by score. With pip
+        <code>pygcransac==0.1.1</code>, unsorted input returns no model even on synthetic data with 50% inliers. Our
+        patch sorts by GeoTransformer score and retries with the uniform sampler.</li>
+      <li><b>Normal orientation for FPFH.</b> Normals are oriented towards the scan centre; Open3D's default sign
+        depends on the frame, and without the fix FPFH + TEASER++ dropped from 82% to 41% under the random transform.</li>
+      <li><b>3DSSG <code>inside</code> relations</b> are removed before SGAligner preprocessing, which rejects them.</li>
+      <li><b>SG-PGM augmentation</b> is disabled, since the random transform is already in the data.</li>
+    </ul>
+
+    <p>
+      Our adapter exports the pairs — including the stored random transforms — into SGAligner's full-scan data layout;
+      SGAligner's own unmodified preprocessing then builds the per-scan pickles (attribute vocabulary 164, relations
+      41, matching the checkpoints), and SG-PGM reads the same files.
+    </p>
+
+    <div class="callout">
+      <p><b>Reported baseline numbers on their own protocol</b> (sub-scan pairs, not comparable 1:1 with our table):</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Method</th><th>Setting</th><th>RRE (deg)</th><th>RTE (cm)</th><th>RR (%)</th></tr></thead>
+        <tbody>
+          <tr><td>SGAligner (ICCV '23)</td><td>GT graphs, identity init</td><td>1.012</td><td>1.67</td><td>99.40</td></tr>
+          <tr><td>SG-PGM (CVPR '24)</td><td>GT graphs, random transform</td><td>1.567</td><td>3.51</td><td>98.72</td></tr>
+          <tr><td>SG-Reg (T-RO '25)</td><td>3RScan-GT pairs</td><td>–</td><td>–</td><td>82.0 (SG-PGM 79.4 on the same)</td></tr>
+          <tr><td>SGAligner++ (2025)</td><td>no registration numbers, no code</td><td>–</td><td>–</td><td>–</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ROADMAP ============================ -->
+<section id="roadmap">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">08</span> Roadmap</h2>
+      <p>Where the project is and where it is going. This section is updated as the work progresses.</p>
+    </div>
+
+    <ul class="timeline">
+      <li class="done">
+        <span class="when">Done</span>
+        <span class="what"><b>Phase 1 — relocalization and change detection.</b> Scene-graph construction, Steps 1–3
+        (candidate matches, consistency, pose), Step 4 (moved objects), four baselines, the full 47-room validation
+        split, and the mid-submission report.</span>
+      </li>
+      <li class="active">
+        <span class="when">In progress</span>
+        <span class="what"><b>Robustness and completeness.</b> When too few objects are static, relocalize from the
+        walls and floor instead of declining. Improve the identification of groups of objects that moved together.
+        Check each unmatched object in the depth images to decide whether it was removed, added or just not seen
+        (Step 5).</span>
+      </li>
+      <li>
+        <span class="when">Next</span>
+        <span class="what"><b>Map editing and more visits.</b> Update the map object by object, keeping each object's
+        change history (Step 6). Run over rooms with three or more scans and track map size and the share of objects
+        in the right place after each visit.</span>
+      </li>
+      <li>
+        <span class="when">Next</span>
+        <span class="what"><b>Predicted segments and ablations.</b> Replace the annotated segments with predicted ones
+        and quantify how much of the performance depends on perfect instance annotations.</span>
+      </li>
+      <li>
+        <span class="when">Nov 23</span>
+        <span class="what"><b>Final report.</b></span>
+      </li>
+      <li>
+        <span class="when">Nov 26</span>
+        <span class="what"><b>Demo.</b> Relocalization, change detection and map editing live on 3RScan rooms.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ REPRODUCE ============================ -->
+<section id="reproduce">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">09</span> Reproducing the results</h2>
+      <p>Everything below runs from the repository root.</p>
+    </div>
+
+    <h3 class="sub">1 — Our method and the classical baselines <span class="tag done">env <code>mrproj</code></span></h3>
+<pre><code>conda env create -f environment.yml      # python 3.10, open3d 0.18, python-igraph, eigen 3.4, ...
+conda activate mrproj
+pytest -q tests                          # 8 synthetic tests</code></pre>
+
+    <h3 class="sub">2 — Data</h3>
+    <p>
+      Downloading 3RScan requires its <a href="https://github.com/WaldJohannaU/3RScan">Terms of Use</a>; the official
+      route is the ToU form, which gives you a <code>download.py</code> script. The layout we expect is:
+    </p>
+<pre><code>data/meta/   3RScan.json, train_scans.txt, val_scans.txt
+             objects.json, relationships.json
+data/3RScan/&lt;scan_id&gt;/labels.instances.annotated.v2.ply
+                        semseg.v2.json
+                        mesh.refined.0.010000.segs.v2.json</code></pre>
+    <p>
+      <code>scripts/download_subset.py</code> fetches <i>N</i> validation rooms (reference + rescans) from the Hugging
+      Face dataset mirror <a href="https://huggingface.co/datasets/maartenImjalli143/3RScan"><code>maartenImjalli143/3RScan</code></a>.
+      That is what was used here: <code>--rooms 47 --min-rescans 1</code> for the full split.
+    </p>
+
+    <h3 class="sub">3 — Learned baselines <span class="tag done">env <code>sgbase</code></span></h3>
+    <p>
+      Python 3.11 with torch 2.7.1+cu128, tested on an RTX 2080 Ti. Exact versions are in
+      <code>baselines/requirements_sgbase.txt</code>; pin <code>torch_geometric==2.5.3</code>, because newer versions
+      route <code>knn_graph</code> to pyg-lib.
+    </p>
+<pre><code>CUDA_HOME=/usr/local/cuda bash baselines/setup_baselines.sh   # SGAligner, SG-PGM, TEASER++ + weights</code></pre>
+
+    <h3 class="sub">4 — Run everything</h3>
+<pre><code>tmux new -d -s fullval 'bash scripts/run_full_val.sh'          # full split, ~2 h
+python scripts/make_figures.py --config configs/full_val.yaml --results results/full_val
+cd report && tectonic -X compile main.tex</code></pre>
+    <p>
+      Thresholds were tuned on the dev rooms with <code>scripts/make_pairs.py --config configs/dev.yaml</code>,
+      <code>scripts/run_ours.py --config configs/dev.yaml --out-dir results/dev</code> and
+      <code>scripts/evaluate.py --config configs/dev.yaml --results results/dev</code>. On dev, ours gets 86.4% with
+      no wrong poses, and both FPFH baselines get 95.5%.
+    </p>
+
+    <div class="callout warn">
+      <p><b>GPU note.</b> Only SGAligner and SG-PGM use the GPU. If they fail at start-up with
+      <code>CUDA unknown error</code>, check
+      <code>python -c "import ctypes; print(ctypes.CDLL('libcuda.so.1').cuInit(0))"</code>. A result of 999 means the
+      node's driver is broken. Run <code>scripts/run_full_val_learned.sh</code> on another node.</p>
+    </div>
+
+    <h3 class="sub">5 — Raw results</h3>
+    <ul class="plain">
+      <li><a href="https://github.com/PrajasW/LM-3DCD-SG/tree/main/results/full_val"><code>results/full_val/</code></a> —
+        one JSON line per pair and method, plus <code>per_pair*.csv</code>, <code>two_visit_table*.md</code> and the run logs.</li>
+      <li><a href="https://github.com/PrajasW/LM-3DCD-SG/tree/main/results"><code>results/</code></a> — the earlier
+        17-pair subset (4 rooms), with its per-pair outcome figure.</li>
+      <li><a href="https://github.com/PrajasW/LM-3DCD-SG/blob/main/report/references.bib"><code>report/references.bib</code></a> —
+        the full bibliography.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ PAPER / CITATION ============================ -->
+<section id="paper">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><span class="num">10</span> Paper, citation and references</h2>
+      <p>The mid-submission report is the current written record of the work.</p>
+    </div>
+
+    <div class="btnrow">
+      <a class="btn primary" href="paper/mid-report.pdf">Read the mid-report (PDF) <span class="gl">↗</span></a>
+      <a class="btn" href="https://github.com/PrajasW/LM-3DCD-SG/blob/main/report/main.tex">LaTeX source <span class="gl">↗</span></a>
+      <button class="btn" data-copy="bibtex">Copy BibTeX</button>
+    </div>
+
+    <h3 class="sub">Cite this work</h3>
+    <div class="copy-row">
+      <button class="icon-btn" data-copy="bibtex">Copy BibTeX</button>
+    </div>
+<pre id="bibtex"><code>@misc{chitkula2026lm3dcdsg,
+  title        = {Lifelong Mapping and {3D} Change Detection on Object-Level Scene Graphs},
+  author       = {Ch Shreyash and Farzana S and Prajas Wadekar},
+  year         = {2026},
+  howpublished = {\url{https://github.com/PrajasW/LM-3DCD-SG}},
+  note         = {Course project, CS7.503 Mobile Robotics, IIIT Hyderabad}
+}</code></pre>
+
+    <h3 class="sub">Key references</h3>
+    <ol class="refs">
+      <li>J. Wald, A. Avetisyan, N. Navab, F. Tombari, M. Nießner. <b>RIO: 3D Object Instance Re-Localization in Changing Indoor Environments.</b> <span class="venue">ICCV, 2019.</span> <a href="https://github.com/WaldJohannaU/3RScan">code</a></li>
+      <li>J. Wald, H. Dhamo, N. Navab, F. Tombari. <b>Learning 3D Semantic Scene Graphs from 3D Indoor Reconstructions.</b> <span class="venue">CVPR, 2020.</span> <a href="https://github.com/SceneGraph3D/3DSSG">code</a></li>
+      <li>S. D. Sarkar, O. Miksik, M. Pollefeys, D. Barath, I. Armeni. <b>SGAligner: 3D Scene Alignment with Scene Graphs.</b> <span class="venue">ICCV, 2023.</span> <a href="https://github.com/sayands/sgaligner">code</a></li>
+      <li>Y. Xie, A. Pagani, D. Stricker. <b>SG-PGM: Partial Graph Matching Network with Semantic Geometric Fusion for 3D Scene Graph Alignment.</b> <span class="venue">CVPR, 2024.</span> <a href="https://github.com/dfki-av/sg-pgm">code</a></li>
+      <li>C. Liu, Z. Qiao, J. Shi, K. Wang, P. Liu, S. Shen. <b>SG-Reg: Generalizable and Efficient Scene Graph Registration.</b> <span class="venue">IEEE T-RO, 2025.</span></li>
+      <li>M. B. Peterson, Y. Jia, Y. Tian, A. Thomas, J. M. How. <b>ROMAN: Open-Set Object Map Alignment for Robust View-Invariant Global Localization.</b> <span class="venue">RSS, 2025.</span></li>
+      <li>J. G. Mangelson, D. Dominic, R. M. Eustice, R. Vasudevan. <b>Pairwise Consistent Measurement Set Maximization for Robust Multi-Robot Map Merging.</b> <span class="venue">ICRA, 2018.</span></li>
+      <li>H. Yang, J. Shi, L. Carlone. <b>TEASER: Fast and Certifiable Point Cloud Registration.</b> <span class="venue">IEEE T-RO, 2021.</span></li>
+      <li>R. B. Rusu, N. Blodow, M. Beetz. <b>Fast Point Feature Histograms (FPFH) for 3D Registration.</b> <span class="venue">ICRA, 2009.</span></li>
+      <li>S. Umeyama. <b>Least-Squares Estimation of Transformation Parameters Between Two Point Patterns.</b> <span class="venue">IEEE TPAMI, 1991.</span></li>
+      <li>A. Adam, T. Sattler, K. Karantzalos, T. Pajdla. <b>Objects Can Move: 3D Change Detection by Geometric Transformation Consistency.</b> <span class="venue">ECCV, 2022.</span></li>
+      <li>L. Zhu, S. Huang, K. Schindler, I. Armeni. <b>Living Scenes: Multi-Object Relocalization and Reconstruction in Changing 3D Environments.</b> <span class="venue">CVPR, 2024.</span></li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div>
+      <b>LM-3DCD-SG</b> — Lifelong Mapping &amp; 3D Change Detection on Object-Level Scene Graphs<br>
+      Ch Shreyash, Farzana S, Prajas Wadekar · CS7.503 Mobile Robotics, IIIT Hyderabad
+    </div>
+    <div>
+      <a href="https://github.com/PrajasW/LM-3DCD-SG">Code</a><span class="sep">·</span>
+      <a href="paper/mid-report.pdf">Mid-report</a><span class="sep">·</span>
+      <a href="https://github.com/PrajasW/LM-3DCD-SG/blob/main/report/references.bib">Bibliography</a><span class="sep">·</span>
+      <a href="#top">Back to top</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
